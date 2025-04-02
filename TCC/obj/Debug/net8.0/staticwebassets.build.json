@@ -1,12 +1,11 @@
 {
   "Version": 1,
-  "Hash": "0MX1uqCyf4ttWR8H62rBKG93SoqRWSQxxtr1c+VXY+Q=",
+  "Hash": "8hqsHbxwgqh/xDKk8EIqWz7iQ08jF/IaVnHpFlYjulM=",
   "Source": "TCC",
   "BasePath": "_content/TCC",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
+  "Assets": []
 }

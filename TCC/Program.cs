@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -17,7 +18,47 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(config =>
+{
+    config.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Ana Paula estética API",
+        Version = "v1",
+        Description = "API para gerenciamento de agendamentos para um salão de estética"
+    });
+
+    config.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = @"<b>JWT Autorização</b> <br/> 
+                          Digite 'Bearer' [espaço] e em seguida colar seu token na caixa de texto abaixo.
+                          <br/> <br/>
+                          <b>Exemplo:</b> 'bearer 123456abcdefg...'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    config.AddSecurityRequirement(new OpenApiSecurityRequirement()
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        },
+                        Scheme = "oauth2",
+                        Name = "Bearer",
+                        In = ParameterLocation.Header
+                    },
+                    new List<string>()
+                }
+            });
+});
+
 builder.Services.AddDbContext<MiraBeautyContext>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -56,7 +97,8 @@ app.MapPost("categoria/adicionar", (MiraBeautyContext context, CategoriaAdiciona
     context.SaveChanges();
 
     return Results.Created("Created", "Categoria registrada com sucesso");
-});
+}).RequireAuthorization().
+WithTags("Categoria");
 
 app.MapGet("categoria/listar", (MiraBeautyContext context) =>
 {
@@ -67,7 +109,8 @@ app.MapGet("categoria/listar", (MiraBeautyContext context) =>
     }).ToList();
 
     return Results.Ok(listaCategoriaDto);
-}).RequireAuthorization();
+}).RequireAuthorization().
+    WithTags("Categoria");
 
 app.MapPut("categoria/atualizar", (MiraBeautyContext context, CategoriaAtualizarDto categoriaDto) =>
 {
@@ -77,8 +120,10 @@ app.MapPut("categoria/atualizar", (MiraBeautyContext context, CategoriaAtualizar
         return Results.NotFound();
     }
     categoria.Descricao = categoriaDto.Descricao;
+    context.SaveChanges();
     return Results.Ok("Categoria atualizada com sucesso");
-});
+}).RequireAuthorization().
+    WithTags("Categoria");
 
 app.MapDelete("categoria/deletar/{id:guid}", (MiraBeautyContext context, Guid id) =>
 {
@@ -90,7 +135,8 @@ app.MapDelete("categoria/deletar/{id:guid}", (MiraBeautyContext context, Guid id
     context.CategoriaSet.Remove(categoria);
     context.SaveChanges();
     return Results.Ok("Categoria deletada com sucesso");
-});
+}).RequireAuthorization().
+    WithTags("Categoria");
 
 #endregion
 
@@ -103,9 +149,10 @@ app.MapPost("agendamento/adicionar", (MiraBeautyContext context, AgendamentoProd
         };
 
         context.AgendamentoSet.Add(agendamento);
-
+        context.SaveChanges();
         return Results.Created("Created", "Agendamento registrado com sucesso");
-    });
+    }).RequireAuthorization().
+    WithTags("Agendamento");
 
 app.MapGet("agendamento/listar", (MiraBeautyContext context) =>
 {
@@ -117,7 +164,8 @@ app.MapGet("agendamento/listar", (MiraBeautyContext context) =>
         Status = agen.Status,
     }).ToList();
     return Results.Ok(listaAgendamentoDto);
-});
+}).RequireAuthorization().
+    WithTags("Agendamento");
 
 app.MapPut("agendamento/atualizar", (MiraBeautyContext context, AgendamentoAtualizarDto agendamentoDto) =>
 {
@@ -129,8 +177,10 @@ app.MapPut("agendamento/atualizar", (MiraBeautyContext context, AgendamentoAtual
     agendamento.DataHoraFinal = agendamentoDto.DataHoraFinal;
     agendamento.DataHoraInicial = agendamentoDto.DataHoraInicial;
     agendamento.Status = agendamentoDto.Status;
+    context.SaveChanges();
     return Results.Ok("Agendamento atualizado com sucesso");
-});
+}).RequireAuthorization().
+    WithTags("Agendamento");
 
 app.MapDelete("agendamento/deletar/{id:guid}", (MiraBeautyContext context, Guid id) =>
 {
@@ -142,7 +192,8 @@ app.MapDelete("agendamento/deletar/{id:guid}", (MiraBeautyContext context, Guid 
     context.AgendamentoSet.Remove(agendamento);
     context.SaveChanges();
     return Results.Ok("Agendamento deletado com sucesso");
-});
+}).RequireAuthorization().
+    WithTags("Agendamento");
 
 #endregion
 
@@ -163,8 +214,10 @@ app.MapPost("produto/adicionar", (MiraBeautyContext context, ProdutoAdicionarDto
         }).ToList()
     };
     context.ProdutoSet.Add(produto);
+    context.SaveChanges();
     return Results.Created("Created", "Produto registrado com sucesso");
-});
+}).RequireAuthorization().
+    WithTags("Produto");
 
 app.MapGet("produto/listar", (MiraBeautyContext context) =>
 {
@@ -182,7 +235,8 @@ app.MapGet("produto/listar", (MiraBeautyContext context) =>
         }).ToList()
     }).ToList();
     return Results.Ok(listaProdutoDto);
-});
+}).RequireAuthorization().
+    WithTags("Produto");
 
 app.MapPut("produto/atualizar", (MiraBeautyContext context, ProdutoAtualizarDto produtoAtualizarDto) =>
 {
@@ -199,8 +253,10 @@ app.MapPut("produto/atualizar", (MiraBeautyContext context, ProdutoAtualizarDto 
         Id = Guid.NewGuid(),
         Imagem = i.Imagem
     }).ToList();
+    context.SaveChanges();
     return Results.Ok("Produto atualizado com sucesso");
-});
+}).RequireAuthorization().
+    WithTags("Produto");
 
 app.MapDelete("produto/deletar/{id:guid}", (MiraBeautyContext context, Guid id) =>
 {
@@ -212,7 +268,8 @@ app.MapDelete("produto/deletar/{id:guid}", (MiraBeautyContext context, Guid id) 
     context.ProdutoSet.Remove(produto);
     context.SaveChanges();
     return Results.Ok("Produto deletado com sucesso");
-});
+}).RequireAuthorization().
+    WithTags("Produto");
 
 #endregion
 
@@ -232,7 +289,8 @@ app.MapPost("usuario/adicionar", (MiraBeautyContext context, UsuarioAdicionarDto
     context.UsuarioSet.Add(usuario);
     context.SaveChanges();
     return Results.Created("Created", "Usu�rio registrado com sucesso");
-});
+}).RequireAuthorization().
+    WithTags("Usuário");
 
 app.MapGet("usuario/listar", (MiraBeautyContext context) =>
 {
@@ -244,7 +302,8 @@ app.MapGet("usuario/listar", (MiraBeautyContext context) =>
         Perfil = user.Perfil
     }).ToList();
     return Results.Ok(listaUsuarioDto);
-});
+}).RequireAuthorization().
+    WithTags("Usuário");
 
 app.MapPut("usuario/atualizar", (MiraBeautyContext context, UsuarioAtualizarDto usuarioDto) =>
 {
@@ -255,8 +314,10 @@ app.MapPut("usuario/atualizar", (MiraBeautyContext context, UsuarioAtualizarDto 
     }
     usuario.Nome = usuarioDto.Nome;
     usuario.Email = usuarioDto.Email;
+    context.SaveChanges();
     return Results.Ok("Usu�rio atualizado com sucesso");
-});
+}).RequireAuthorization().
+    WithTags("Usuário");
 
 app.MapDelete("usuario/deletar/{id:guid}", (MiraBeautyContext context, Guid id) =>
 {
@@ -268,7 +329,8 @@ app.MapDelete("usuario/deletar/{id:guid}", (MiraBeautyContext context, Guid id) 
     context.UsuarioSet.Remove(usuario);
     context.SaveChanges();
     return Results.Ok("Usu�rio deletado com sucesso");
-});
+}).RequireAuthorization().
+    WithTags("Usuário");
 
 #endregion
 
@@ -299,6 +361,6 @@ app.MapPost("autenticar", (MiraBeautyContext context, LoginDto loginDto) =>
     return Results.Ok(
     new JwtSecurityTokenHandler()
     .WriteToken(token));
-});
+}).WithTags("Autorização");
 
 app.Run();
