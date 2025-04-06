@@ -77,11 +77,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
+
+app.UseCors(x => x
+.AllowAnyOrigin()
+.AllowAnyMethod() // Get, Post , Put, Delete, etc...
+.AllowAnyHeader());
 
 #region Endpoints Categoria
 
