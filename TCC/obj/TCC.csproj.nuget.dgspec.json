@@ -1,23 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rafae\\OneDrive\\Área de Trabalho\\tcc\\AnaPaulaEstetica-Backend\\TCC\\TCC.csproj": {}
+    "C:\\Users\\lenovo\\Desktop\\back\\AnaPaulaEstetica-Backend\\TCC\\TCC.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rafae\\OneDrive\\Área de Trabalho\\tcc\\AnaPaulaEstetica-Backend\\TCC\\TCC.csproj": {
+    "C:\\Users\\lenovo\\Desktop\\back\\AnaPaulaEstetica-Backend\\TCC\\TCC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rafae\\OneDrive\\Área de Trabalho\\tcc\\AnaPaulaEstetica-Backend\\TCC\\TCC.csproj",
+        "projectUniqueName": "C:\\Users\\lenovo\\Desktop\\back\\AnaPaulaEstetica-Backend\\TCC\\TCC.csproj",
         "projectName": "TCC",
-        "projectPath": "C:\\Users\\rafae\\OneDrive\\Área de Trabalho\\tcc\\AnaPaulaEstetica-Backend\\TCC\\TCC.csproj",
-        "packagesPath": "C:\\Users\\rafae\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rafae\\OneDrive\\Área de Trabalho\\tcc\\AnaPaulaEstetica-Backend\\TCC\\obj\\",
+        "projectPath": "C:\\Users\\lenovo\\Desktop\\back\\AnaPaulaEstetica-Backend\\TCC\\TCC.csproj",
+        "packagesPath": "C:\\Users\\lenovo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lenovo\\Desktop\\back\\AnaPaulaEstetica-Backend\\TCC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\rafae\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +27,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,13 +40,7 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -104,7 +100,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

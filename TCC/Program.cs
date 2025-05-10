@@ -218,7 +218,8 @@ app.MapPost("produto/adicionar", (MiraBeautyContext context, ProdutoAdicionarDto
         {
             Id = Guid.NewGuid(),
             Imagem = i.Imagem
-        }).ToList()
+        }).ToList(),
+        CategoriaId = produtoDto.CategoriaId,
     };
     context.ProdutoSet.Add(produto);
     context.SaveChanges();

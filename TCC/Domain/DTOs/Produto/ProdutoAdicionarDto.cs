@@ -9,5 +9,7 @@ namespace TCC.Domain.DTOs.Produto
         public EnumTempo Tempo { get; set; }
         public decimal Preco { get; set; }
         public List<ProdutoImagemAdicionarDto> Imagens { get; set; }
+
+        public Guid CategoriaId { get; set; }
     }
 }
