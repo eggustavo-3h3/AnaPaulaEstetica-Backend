@@ -94,6 +94,13 @@ app.UseCors(x => x
 
 app.MapPost("categoria/adicionar", (MiraBeautyContext context, CategoriaAdicionarDto categoriaDto) =>
 {
+    var resultado = new CategoriaAdicionarDtoValidator().Validate(categoriaDto);
+
+    if (!resultado.IsValid)
+    {
+        return Results.BadRequest(resultado.Errors.Select(error => error.ErrorMessage));
+    }
+
     var categoria = new Categoria
     {
         Id = Guid.NewGuid(),
@@ -121,6 +128,13 @@ app.MapGet("categoria/listar", (MiraBeautyContext context) =>
 
 app.MapPut("categoria/atualizar", (MiraBeautyContext context, CategoriaAtualizarDto categoriaDto) =>
 {
+    var resultado = new CategoriaAtualizarDtoValidator().Validate(categoriaDto);
+
+    if (!resultado.IsValid)
+    {
+        return Results.BadRequest(resultado.Errors.Select(error => error.ErrorMessage));
+    }
+
     var categoria = context.CategoriaSet.Find(categoriaDto.Id);
     if (categoria == null)
     {
@@ -208,6 +222,13 @@ app.MapDelete("agendamento/deletar/{id:guid}", (MiraBeautyContext context, Guid 
 
 app.MapPost("produto/adicionar", (MiraBeautyContext context, ProdutoAdicionarDto produtoDto) =>
 {
+    var resultado = new ProdutoAdicionarDtoValidator().Validate(produtoDto);
+
+    if (!resultado.IsValid)
+    {
+        return Results.BadRequest(resultado.Errors.Select(error => error.ErrorMessage));
+    }
+
     var produto = new Produto
     {
         Id = Guid.NewGuid(),
@@ -248,6 +269,13 @@ app.MapGet("produto/listar", (MiraBeautyContext context) =>
 
 app.MapPut("produto/atualizar", (MiraBeautyContext context, ProdutoAtualizarDto produtoAtualizarDto) =>
 {
+    var resultado = new ProdutoAtualizarDtoValidator().Validate(produtoAtualizarDto);
+
+    if (!resultado.IsValid)
+    {
+        return Results.BadRequest(resultado.Errors.Select(error => error.ErrorMessage));
+    }
+
     var produto = context.ProdutoSet.Find(produtoAtualizarDto.Id);
     if (produto == null)
     {
@@ -285,14 +313,20 @@ app.MapDelete("produto/deletar/{id:guid}", (MiraBeautyContext context, Guid id) 
 
 app.MapPost("usuario/adicionar", (MiraBeautyContext context, UsuarioAdicionarDto usuarioDto) =>
 {
+    var resultado = new UsuarioAdicionarDtoValidator().Validate(usuarioDto);
+
+    if (!resultado.IsValid)
+    {
+        return Results.BadRequest(resultado.Errors.Select(error => error.ErrorMessage));
+    }
+
     var usuario = new Usuario
     {
         Id = Guid.NewGuid(),
         Nome = usuarioDto.Nome,
         Email = usuarioDto.Email,
         Senha = usuarioDto.Senha,
-        ConfirmacaoSenha = usuarioDto.ConfirmacaoSenha
-
+        ConfirmacaoSenha = usuarioDto.ConfirmarSenha
     };
     context.UsuarioSet.Add(usuario);
     context.SaveChanges();
@@ -315,6 +349,13 @@ app.MapGet("usuario/listar", (MiraBeautyContext context) =>
 
 app.MapPut("usuario/atualizar", (MiraBeautyContext context, UsuarioAtualizarDto usuarioDto) =>
 {
+    var resultado = new UsuarioAtualizarDtoValidator().Validate(usuarioDto);
+
+    if (!resultado.IsValid)
+    {
+        return Results.BadRequest(resultado.Errors.Select(error => error.ErrorMessage));
+    }
+
     var usuario = context.UsuarioSet.Find(usuarioDto.Id);
     if (usuario == null)
     {
@@ -323,7 +364,7 @@ app.MapPut("usuario/atualizar", (MiraBeautyContext context, UsuarioAtualizarDto 
     usuario.Nome = usuarioDto.Nome;
     usuario.Email = usuarioDto.Email;
     context.SaveChanges();
-    return Results.Ok("Usu�rio atualizado com sucesso");
+    return Results.Ok("Usuário atualizado com sucesso");
 }).RequireAuthorization().
     WithTags("Usuário");
 
@@ -336,7 +377,7 @@ app.MapDelete("usuario/deletar/{id:guid}", (MiraBeautyContext context, Guid id) 
     }
     context.UsuarioSet.Remove(usuario);
     context.SaveChanges();
-    return Results.Ok("Usu�rio deletado com sucesso");
+    return Results.Ok("Usuário deletado com sucesso");
 }).RequireAuthorization().
     WithTags("Usuário");
 

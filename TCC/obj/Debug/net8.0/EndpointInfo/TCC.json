@@ -452,6 +452,10 @@
               "$ref": "#/components/schemas/ProdutoImagemAdicionarDto"
             },
             "nullable": true
+          },
+          "categoriaId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -538,7 +542,7 @@
     "securitySchemes": {
       "Bearer": {
         "type": "apiKey",
-        "description": "<b>JWT Autorização</b> <br/> \n                          Digite 'Bearer' [espaço] e em seguida colar seu token na caixa de texto abaixo.\n                          <br/> <br/>\n                          <b>Exemplo:</b> 'bearer 123456abcdefg...'",
+        "description": "<b>JWT Autorização</b> <br/> \r\n                          Digite 'Bearer' [espaço] e em seguida colar seu token na caixa de texto abaixo.\r\n                          <br/> <br/>\r\n                          <b>Exemplo:</b> 'bearer 123456abcdefg...'",
         "name": "Authorization",
         "in": "header"
       }

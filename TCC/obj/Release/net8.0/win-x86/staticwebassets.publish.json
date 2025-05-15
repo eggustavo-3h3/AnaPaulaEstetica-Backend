@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "Zj9+tWvHkmR33rEWSA/0uR/Sv3QCrakeq/GDq7QJ43k=",
+  "Hash": "SdLMlTY4Y8Z7EcBNnahrBAvBXUkW/FQbVYh/FJvQpVI=",
   "Source": "TCC",
   "BasePath": "_content/TCC",
   "Mode": "Default",
   "ManifestType": "Publish",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

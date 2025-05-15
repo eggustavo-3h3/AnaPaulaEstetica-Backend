@@ -1,12 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\rafae\\OneDrive\\\u00C1rea de Trabalho\\tcc\\AnaPaulaEstetica-Backend\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{7EFCFF2F-8D61-40F5-B8D2-0152F44B9B93}|TCC\\TCC.csproj|c:\\users\\rafae\\onedrive\\\u00E1rea de trabalho\\tcc\\anapaulaestetica-backend\\tcc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7EFCFF2F-8D61-40F5-B8D2-0152F44B9B93}|TCC\\TCC.csproj|solutionrelative:tcc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "WorkspaceRootPath": "C:\\Users\\rafae\\OneDrive\\\u00C1rea de Trabalho\\back\\AnaPaulaEstetica-Backend\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -14,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -23,19 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\rafae\\OneDrive\\\u00C1rea de Trabalho\\tcc\\AnaPaulaEstetica-Backend\\TCC\\Program.cs",
-              "RelativeDocumentMoniker": "TCC\\Program.cs",
-              "ToolTip": "C:\\Users\\rafae\\OneDrive\\\u00C1rea de Trabalho\\tcc\\AnaPaulaEstetica-Backend\\TCC\\Program.cs",
-              "RelativeToolTip": "TCC\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-06T01:46:32.802Z",
-              "EditorCaption": ""
             }
           ]
         }

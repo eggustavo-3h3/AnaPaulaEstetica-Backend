@@ -8,6 +8,6 @@
 
         public string Senha { get; set; } = string.Empty;
 
-        public string ConfirmacaoSenha { get; set; } = string.Empty;
+        public string ConfirmarSenha { get; set; } = string.Empty;
     }
 }
