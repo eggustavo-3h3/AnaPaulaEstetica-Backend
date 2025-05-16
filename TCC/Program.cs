@@ -105,6 +105,11 @@ app.MapPost("categoria/adicionar", (MiraBeautyContext context, CategoriaAdiciona
     {
         Id = Guid.NewGuid(),
         Descricao = categoriaDto.Descricao,
+        CategoriaImagens = categoriaDto.Imagens.Select(i => new CategoriaImagem
+        {
+            Id = Guid.NewGuid(),
+            Imagem = i.Imagem
+        }).ToList()
     };
 
     context.CategoriaSet.Add(categoria);

@@ -384,6 +384,13 @@
           "descricao": {
             "type": "string",
             "nullable": true
+          },
+          "imagens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoriaImagemAdicionarDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -396,6 +403,16 @@
             "format": "uuid"
           },
           "descricao": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CategoriaImagemAdicionarDto": {
+        "type": "object",
+        "properties": {
+          "imagem": {
             "type": "string",
             "nullable": true
           }
@@ -484,6 +501,10 @@
               "$ref": "#/components/schemas/ProdutoImagemAdicionarDto"
             },
             "nullable": true
+          },
+          "categoriaId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -513,7 +534,7 @@
             "type": "string",
             "nullable": true
           },
-          "confirmacaoSenha": {
+          "confirmarSenha": {
             "type": "string",
             "nullable": true
           }

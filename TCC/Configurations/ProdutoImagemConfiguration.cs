@@ -13,14 +13,6 @@ namespace TCC.Configurations
             builder.Property(p => p.Imagem)
                 .HasMaxLength(500);
 
-            builder.Property(p => p.ProdutoId)
-                .IsRequired();
-
-            //builder.HasOne(p => p.Produto)
-            //    .WithMany()
-            //    .HasForeignKey(p => p.Produto)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
             builder.ToTable("TB_ProdutoImagem");
 
             // Outras configurações conforme necessário
