@@ -385,11 +385,8 @@
             "type": "string",
             "nullable": true
           },
-          "imagens": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CategoriaImagemAdicionarDto"
-            },
+          "categoriaImagem": {
+            "type": "string",
             "nullable": true
           }
         },
@@ -405,14 +402,8 @@
           "descricao": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CategoriaImagemAdicionarDto": {
-        "type": "object",
-        "properties": {
-          "imagem": {
+          },
+          "categoriaImagem": {
             "type": "string",
             "nullable": true
           }

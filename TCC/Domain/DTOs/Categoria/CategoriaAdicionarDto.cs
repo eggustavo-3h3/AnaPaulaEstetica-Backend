@@ -4,8 +4,8 @@ namespace TCC.Domain.DTOs.Categoria
 {
     public class CategoriaAdicionarDto
     {
-        public string Descricao { get; set; }
+        public string Descricao { get; set; } = string.Empty;
 
-        public List<CategoriaImagemAdicionarDto> Imagens { get; set; }
+        public string CategoriaImagem { get; set; } = string.Empty;
     }
 }

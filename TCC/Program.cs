@@ -105,11 +105,7 @@ app.MapPost("categoria/adicionar", (MiraBeautyContext context, CategoriaAdiciona
     {
         Id = Guid.NewGuid(),
         Descricao = categoriaDto.Descricao,
-        CategoriaImagens = categoriaDto.Imagens.Select(i => new CategoriaImagem
-        {
-            Id = Guid.NewGuid(),
-            Imagem = i.Imagem
-        }).ToList()
+        CategoriaImagem = categoriaDto.CategoriaImagem,
     };
 
     context.CategoriaSet.Add(categoria);
@@ -125,11 +121,11 @@ app.MapGet("categoria/listar", (MiraBeautyContext context) =>
     {
         Id = cat.Id,
         Descricao = cat.Descricao,
+        CategoriaImagem = cat.CategoriaImagem,
     }).ToList();
 
     return Results.Ok(listaCategoriaDto);
-}).RequireAuthorization().
-    WithTags("Categoria");
+}).WithTags("Categoria");
 
 app.MapPut("categoria/atualizar", (MiraBeautyContext context, CategoriaAtualizarDto categoriaDto) =>
 {
@@ -146,6 +142,8 @@ app.MapPut("categoria/atualizar", (MiraBeautyContext context, CategoriaAtualizar
         return Results.NotFound();
     }
     categoria.Descricao = categoriaDto.Descricao;
+    categoria.CategoriaImagem = categoriaDto.CategoriaImagem;
+
     context.SaveChanges();
     return Results.Ok("Categoria atualizada com sucesso");
 }).RequireAuthorization().

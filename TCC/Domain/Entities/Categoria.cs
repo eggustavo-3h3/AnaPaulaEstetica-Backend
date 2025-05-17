@@ -4,6 +4,6 @@
     {
         public Guid Id { get; set; }
         public string Descricao { get; set; } = string.Empty;
-        public ICollection<CategoriaImagem> CategoriaImagens { get; set; }
+        public string CategoriaImagem { get; set; }
     }
 }
