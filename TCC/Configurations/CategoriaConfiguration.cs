@@ -13,6 +13,9 @@ namespace TCC.Configurations
                 .IsRequired()
                 .HasMaxLength(100);
 
+            builder.Property(p => p.CategoriaImagem)
+                .IsRequired();
+
             builder.ToTable("TB_Categoria");
 
             // Outras configurações conforme necessário

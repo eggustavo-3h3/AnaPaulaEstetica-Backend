@@ -11,7 +11,7 @@ namespace TCC.Configurations
             builder.HasKey(c => c.Id);
 
             builder.Property(c => c.Imagem)
-                .HasMaxLength(500);
+                .IsRequired();
 
             builder.ToTable("TB_CategoriaImagem");
             // Outras configurações conforme necessário

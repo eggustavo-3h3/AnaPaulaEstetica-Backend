@@ -11,8 +11,8 @@ using TCC.Infra.Data.Context;
 namespace TCC.Migrations
 {
     [DbContext(typeof(MiraBeautyContext))]
-    [Migration("20250308163030_SegundaMigration")]
-    partial class SegundaMigration
+    [Migration("20250520041114_MigrationFuncione")]
+    partial class MigrationFuncione
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,6 +73,11 @@ namespace TCC.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("CategoriaImagem")
+                        .IsRequired()
+                        .HasMaxLength(3000)
+                        .HasColumnType("varchar(3000)");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -136,7 +141,7 @@ namespace TCC.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
-                    b.Property<Guid>("ProdutoId")
+                    b.Property<Guid?>("ProdutoId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
@@ -151,6 +156,10 @@ namespace TCC.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("ConfirmacaoSenha")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -218,13 +227,9 @@ namespace TCC.Migrations
 
             modelBuilder.Entity("TCC.Domain.Entities.ProdutoImagem", b =>
                 {
-                    b.HasOne("TCC.Domain.Entities.Produto", "Produto")
+                    b.HasOne("TCC.Domain.Entities.Produto", null)
                         .WithMany("ProdutoImagens")
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Produto");
+                        .HasForeignKey("ProdutoId");
                 });
 
             modelBuilder.Entity("TCC.Domain.Entities.Produto", b =>

@@ -71,6 +71,11 @@ namespace TCC.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("CategoriaImagem")
+                        .IsRequired()
+                        .HasMaxLength(3000)
+                        .HasColumnType("varchar(3000)");
+
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -133,7 +138,7 @@ namespace TCC.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
-                    b.Property<Guid>("ProdutoId")
+                    b.Property<Guid?>("ProdutoId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
@@ -148,6 +153,10 @@ namespace TCC.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("ConfirmacaoSenha")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -215,13 +224,9 @@ namespace TCC.Migrations
 
             modelBuilder.Entity("TCC.Domain.Entities.ProdutoImagem", b =>
                 {
-                    b.HasOne("TCC.Domain.Entities.Produto", "Produto")
+                    b.HasOne("TCC.Domain.Entities.Produto", null)
                         .WithMany("ProdutoImagens")
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Produto");
+                        .HasForeignKey("ProdutoId");
                 });
 
             modelBuilder.Entity("TCC.Domain.Entities.Produto", b =>

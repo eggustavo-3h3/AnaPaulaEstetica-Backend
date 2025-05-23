@@ -268,7 +268,7 @@
     "/usuario/adicionar": {
       "post": {
         "tags": [
-          "Usuário"
+          "TCC"
         ],
         "requestBody": {
           "content": {

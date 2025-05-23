@@ -334,8 +334,7 @@ app.MapPost("usuario/adicionar", (MiraBeautyContext context, UsuarioAdicionarDto
     context.UsuarioSet.Add(usuario);
     context.SaveChanges();
     return Results.Created("Created", "Usu�rio registrado com sucesso");
-}).RequireAuthorization().
-    WithTags("Usuário");
+}).WithTags("Usuário");
 
 app.MapGet("usuario/listar", (MiraBeautyContext context) =>
 {
