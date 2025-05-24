@@ -2,7 +2,9 @@
 {
     public enum EnumTempo
     {
-        Min_30 = 30,
-        Min_60 = 60
+        MeiaHora = 30,
+        UmaHora = 60,
+        UmaHoraMeia = 90,
+        DuasHoras = 120
     }
 }

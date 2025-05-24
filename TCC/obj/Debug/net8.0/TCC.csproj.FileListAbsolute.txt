@@ -1234,3 +1234,4 @@ C:\Users\rafae\OneDrive\Área de Trabalho\back\AnaPaulaEstetica-Backend\TCC\obj\
 C:\Users\rafae\OneDrive\Área de Trabalho\back\AnaPaulaEstetica-Backend\TCC\obj\Debug\net8.0\TCC.genruntimeconfig.cache
 C:\Users\rafae\OneDrive\Área de Trabalho\back\AnaPaulaEstetica-Backend\TCC\obj\Debug\net8.0\ref\TCC.dll
 C:\Users\rafae\OneDrive\Área de Trabalho\tcc\AnaPaulaEstetica-Backend\TCC\bin\Debug\net8.0\FluentValidation.dll
+C:\Users\lenovo\Desktop\back\AnaPaulaEstetica-Backend\TCC\bin\Debug\net8.0\FluentValidation.dll

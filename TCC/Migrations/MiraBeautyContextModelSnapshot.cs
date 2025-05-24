@@ -73,8 +73,7 @@ namespace TCC.Migrations
 
                     b.Property<string>("CategoriaImagem")
                         .IsRequired()
-                        .HasMaxLength(3000)
-                        .HasColumnType("varchar(3000)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -135,8 +134,7 @@ namespace TCC.Migrations
 
                     b.Property<string>("Imagem")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid?>("ProdutoId")
                         .HasColumnType("char(36)");

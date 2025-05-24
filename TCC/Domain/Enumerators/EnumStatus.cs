@@ -2,7 +2,7 @@
 {
     public enum EnumStatus
     {
-        Agendado,
-        Cancelado
+        Agendado = 1,
+        Cancelado = 2
     }
 }

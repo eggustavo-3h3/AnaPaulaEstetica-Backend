@@ -11,8 +11,8 @@ using TCC.Infra.Data.Context;
 namespace TCC.Migrations
 {
     [DbContext(typeof(MiraBeautyContext))]
-    [Migration("20250520041114_MigrationFuncione")]
-    partial class MigrationFuncione
+    [Migration("20250524011446_Atualizado")]
+    partial class Atualizado
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,8 +76,7 @@ namespace TCC.Migrations
 
                     b.Property<string>("CategoriaImagem")
                         .IsRequired()
-                        .HasMaxLength(3000)
-                        .HasColumnType("varchar(3000)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -138,8 +137,7 @@ namespace TCC.Migrations
 
                     b.Property<string>("Imagem")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid?>("ProdutoId")
                         .HasColumnType("char(36)");
