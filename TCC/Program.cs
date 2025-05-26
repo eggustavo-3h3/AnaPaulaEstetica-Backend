@@ -30,7 +30,7 @@ builder.Services.AddSwaggerGen(config =>
 {
     config.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "Ana Paula estética API",
+        Title = "Estética Easy API",
         Version = "v1",
         Description = "API para gerenciamento de agendamentos para um salão de estética"
     });
