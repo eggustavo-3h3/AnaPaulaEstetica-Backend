@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TCC", "TCC\TCC.csproj", "{7EFCFF2F-8D61-40F5-B8D2-0152F44B9B93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estetica.Easy", "TCC\Estetica.Easy.csproj", "{7EFCFF2F-8D61-40F5-B8D2-0152F44B9B93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

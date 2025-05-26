@@ -1,6 +1,6 @@
-﻿using TCC.Domain.Enumerators;
+﻿using Estetica.Easy.Domain.Enumerators;
 
-namespace TCC.Domain.DTOs.Agendamento
+namespace Estetica.Easy.Domain.DTOs.Agendamento
 {
     public class AgendamentoAtualizarDto
     {

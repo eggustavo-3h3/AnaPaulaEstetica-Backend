@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace TCC.Domain.Extensions
+namespace Estetica.Easy.Domain.Extensions
 {
     public static class Encrypt
     {

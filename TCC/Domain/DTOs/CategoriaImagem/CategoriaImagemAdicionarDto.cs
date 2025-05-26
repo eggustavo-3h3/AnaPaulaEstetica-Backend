@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.DTOs.CategoriaImagem
+﻿namespace Estetica.Easy.Domain.DTOs.CategoriaImagem
 {
     public class CategoriaImagemAdicionarDto
     {

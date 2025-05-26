@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.DTOs.Login
+﻿namespace Estetica.Easy.Domain.DTOs.Login
 {
     public class LoginDto
     {

@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TCC.Domain.Entities;
-using TCC.Infra.Data.Configurations;
+﻿using Estetica.Easy.Domain.Entities;
+using Estetica.Easy.Infra.Data.Configurations;
+using Microsoft.EntityFrameworkCore;
 
-namespace TCC.Infra.Data.Context
+namespace Estetica.Easy.Infra.Data.Context
 {
     public class MiraBeautyContext : DbContext
     {

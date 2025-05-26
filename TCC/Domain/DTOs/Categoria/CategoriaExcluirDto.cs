@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.DTOs.Categoria
+﻿namespace Estetica.Easy.Domain.DTOs.Categoria
 {
     public class CategoriaRemoveDto
     {

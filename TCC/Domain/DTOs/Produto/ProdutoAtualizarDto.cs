@@ -1,7 +1,7 @@
-﻿using TCC.Domain.DTOs.ProdutoImagem;
-using TCC.Domain.Enumerators;
+﻿using Estetica.Easy.Domain.DTOs.ProdutoImagem;
+using Estetica.Easy.Domain.Enumerators;
 
-namespace TCC.Domain.DTOs.Produto
+namespace Estetica.Easy.Domain.DTOs.Produto
 {
     public class ProdutoAtualizarDto
     {

@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.DTOs.Configuracao
+﻿namespace Estetica.Easy.Domain.DTOs.Configuracao
 {
     public class ConfiguracaoAdicionarDto
     {

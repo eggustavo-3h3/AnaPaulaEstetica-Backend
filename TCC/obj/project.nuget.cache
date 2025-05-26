@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "w3tU/ZWH3zA=",
+  "dgSpecHash": "jfiKxwn1NuA=",
   "success": true,
-  "projectFilePath": "D:\\Etec\\TCC\\AnaPaulaEstetica-Backend\\TCC\\TCC.csproj",
+  "projectFilePath": "D:\\Etec\\TCC\\AnaPaulaEstetica-Backend\\TCC\\Estetica.Easy.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\eggus\\.nuget\\packages\\fluentvalidation\\12.0.0\\fluentvalidation.12.0.0.nupkg.sha512",
     "C:\\Users\\eggus\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

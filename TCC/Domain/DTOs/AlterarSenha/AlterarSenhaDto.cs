@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.DTOs.AlterarSenha;
+﻿namespace Estetica.Easy.Domain.DTOs.AlterarSenha;
 
 public class AlterarSenhaDto
 {

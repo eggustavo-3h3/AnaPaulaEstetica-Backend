@@ -4,19 +4,21 @@ using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Estetica.Easy.Domain.DTOs.Agendamento;
+using Estetica.Easy.Domain.DTOs.AlterarSenha;
+using Estetica.Easy.Domain.DTOs.Base;
+using Estetica.Easy.Domain.DTOs.Categoria;
+using Estetica.Easy.Domain.DTOs.Login;
+using Estetica.Easy.Domain.DTOs.Produto;
+using Estetica.Easy.Domain.DTOs.ResetSenha;
+using Estetica.Easy.Domain.DTOs.Usuario;
+using Estetica.Easy.Domain.Entities;
+using Estetica.Easy.Domain.Extensions;
+using Estetica.Easy.Infra.Data.Context;
+using Estetica.Easy.Infra.Email;
 using Microsoft.EntityFrameworkCore;
-using TCC.Domain.DTOs.Agendamento;
-using TCC.Domain.DTOs.AlterarSenha;
-using TCC.Domain.DTOs.Base;
-using TCC.Domain.DTOs.Categoria;
-using TCC.Domain.DTOs.Login;
-using TCC.Domain.DTOs.Produto;
-using TCC.Domain.DTOs.ResetSenha;
-using TCC.Domain.DTOs.Usuario;
-using TCC.Domain.Entities;
-using TCC.Domain.Extensions;
-using TCC.Infra.Data.Context;
-using TCC.Infra.Email; // Add this using directive
+
+// Add this using directive
 
 var builder = WebApplication.CreateBuilder(args);
 

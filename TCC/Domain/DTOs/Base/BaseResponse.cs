@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.DTOs.Base
+﻿namespace Estetica.Easy.Domain.DTOs.Base
 {
     public class BaseResponse(string mensagem)
     {

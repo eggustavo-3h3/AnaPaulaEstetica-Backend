@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.DTOs.ResetSenha;
+﻿namespace Estetica.Easy.Domain.DTOs.ResetSenha;
 
 public class GerarResetSenhaDto
 {

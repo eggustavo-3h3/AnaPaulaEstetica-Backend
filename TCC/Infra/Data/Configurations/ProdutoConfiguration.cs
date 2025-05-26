@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Estetica.Easy.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TCC.Domain.Entities;
 
-namespace TCC.Infra.Data.Configurations
+namespace Estetica.Easy.Infra.Data.Configurations
 {
     public class ProdutoConfiguration : IEntityTypeConfiguration<Produto>
     {

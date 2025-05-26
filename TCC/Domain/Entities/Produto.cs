@@ -1,6 +1,6 @@
-﻿using TCC.Domain.Enumerators;
+﻿using Estetica.Easy.Domain.Enumerators;
 
-namespace TCC.Domain.Entities
+namespace Estetica.Easy.Domain.Entities
 {
     public class Produto
     {

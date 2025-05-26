@@ -1,7 +1,4 @@
-﻿using TCC.Domain.DTOs.CategoriaImagem;
-using TCC.Domain.DTOs.ProdutoImagem;
-
-namespace TCC.Domain.Entities
+﻿namespace Estetica.Easy.Domain.Entities
 {
     public class CategoriaImagem
     {

@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.DTOs.Produto
+﻿namespace Estetica.Easy.Domain.DTOs.Produto
 {
     public class ProdutoRemoveDto
     {

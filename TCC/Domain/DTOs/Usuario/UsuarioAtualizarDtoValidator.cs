@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace TCC.Domain.DTOs.Usuario
+namespace Estetica.Easy.Domain.DTOs.Usuario
 {
     public class UsuarioAtualizarDtoValidator : AbstractValidator<UsuarioAtualizarDto>
     {

@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Net.Mail;
-using TCC.Domain.DTOs.Email;
+using Estetica.Easy.Domain.DTOs.Email;
 
-namespace TCC.Infra.Email;
+namespace Estetica.Easy.Infra.Email;
 
 public class EmailService
 {

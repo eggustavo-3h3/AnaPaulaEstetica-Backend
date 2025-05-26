@@ -1,6 +1,6 @@
-﻿using TCC.Domain.Enumerators;
+﻿using Estetica.Easy.Domain.Enumerators;
 
-namespace TCC.Domain.DTOs.Usuario
+namespace Estetica.Easy.Domain.DTOs.Usuario
 {
     public class UsuarioListarDto
     {

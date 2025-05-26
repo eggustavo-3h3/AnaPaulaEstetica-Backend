@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.DTOs.ProdutoImagem
+﻿namespace Estetica.Easy.Domain.DTOs.ProdutoImagem
 {
     public class ProdutoImagemUpdateDto
     {

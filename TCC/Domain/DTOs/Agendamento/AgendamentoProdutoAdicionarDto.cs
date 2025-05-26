@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.DTOs.Agendamento
+﻿namespace Estetica.Easy.Domain.DTOs.Agendamento
 {
     public class AgendamentoProdutoAdicionarDto
     {

@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.Enumerators
+﻿namespace Estetica.Easy.Domain.Enumerators
 {
     public enum EnumPerfil
     {

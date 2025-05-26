@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.DTOs.Email;
+﻿namespace Estetica.Easy.Domain.DTOs.Email;
 
 public class EnviarEmailResponse
 {

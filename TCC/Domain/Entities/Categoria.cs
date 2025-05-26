@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.Entities
+﻿namespace Estetica.Easy.Domain.Entities
 {
     public class Categoria
     {

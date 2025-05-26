@@ -3128,9 +3128,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Etec\\TCC\\AnaPaulaEstetica-Backend\\TCC\\TCC.csproj",
-      "projectName": "TCC",
-      "projectPath": "D:\\Etec\\TCC\\AnaPaulaEstetica-Backend\\TCC\\TCC.csproj",
+      "projectUniqueName": "D:\\Etec\\TCC\\AnaPaulaEstetica-Backend\\TCC\\Estetica.Easy.csproj",
+      "projectName": "Estetica.Easy",
+      "projectPath": "D:\\Etec\\TCC\\AnaPaulaEstetica-Backend\\TCC\\Estetica.Easy.csproj",
       "packagesPath": "C:\\Users\\eggus\\.nuget\\packages\\",
       "outputPath": "D:\\Etec\\TCC\\AnaPaulaEstetica-Backend\\TCC\\obj\\",
       "projectStyle": "PackageReference",

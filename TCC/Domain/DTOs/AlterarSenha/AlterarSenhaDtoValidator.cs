@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace TCC.Domain.DTOs.AlterarSenha;
+namespace Estetica.Easy.Domain.DTOs.AlterarSenha;
 
 public class AlterarSenhaDtoValidator : AbstractValidator<AlterarSenhaDto>
 {
