@@ -9,7 +9,7 @@
     "Parameters": [
       {
         "Name": "agendamentoDto",
-        "Type": "TCC.Domain.DTOs.Agendamento.AgendamentoProdutoAdicionarDto",
+        "Type": "Estetica.Easy.Domain.DTOs.Agendamento.AgendamentoProdutoAdicionarDto",
         "IsRequired": true
       }
     ],
@@ -34,7 +34,7 @@
     "Parameters": [
       {
         "Name": "agendamentoDto",
-        "Type": "TCC.Domain.DTOs.Agendamento.AgendamentoAtualizarDto",
+        "Type": "Estetica.Easy.Domain.DTOs.Agendamento.AgendamentoAtualizarDto",
         "IsRequired": true
       }
     ],
@@ -103,7 +103,7 @@
     "Parameters": [
       {
         "Name": "alterarSenhaDto",
-        "Type": "TCC.Domain.DTOs.AlterarSenha.AlterarSenhaDto",
+        "Type": "Estetica.Easy.Domain.DTOs.AlterarSenha.AlterarSenhaDto",
         "IsRequired": true
       }
     ],
@@ -128,7 +128,7 @@
     "Parameters": [
       {
         "Name": "loginDto",
-        "Type": "TCC.Domain.DTOs.Login.LoginDto",
+        "Type": "Estetica.Easy.Domain.DTOs.Login.LoginDto",
         "IsRequired": true
       }
     ],
@@ -153,7 +153,7 @@
     "Parameters": [
       {
         "Name": "categoriaDto",
-        "Type": "TCC.Domain.DTOs.Categoria.CategoriaAdicionarDto",
+        "Type": "Estetica.Easy.Domain.DTOs.Categoria.CategoriaAdicionarDto",
         "IsRequired": true
       }
     ],
@@ -178,7 +178,7 @@
     "Parameters": [
       {
         "Name": "categoriaDto",
-        "Type": "TCC.Domain.DTOs.Categoria.CategoriaAtualizarDto",
+        "Type": "Estetica.Easy.Domain.DTOs.Categoria.CategoriaAtualizarDto",
         "IsRequired": true
       }
     ],
@@ -247,7 +247,7 @@
     "Parameters": [
       {
         "Name": "gerarResetSenhaDto",
-        "Type": "TCC.Domain.DTOs.ResetSenha.GerarResetSenhaDto",
+        "Type": "Estetica.Easy.Domain.DTOs.ResetSenha.GerarResetSenhaDto",
         "IsRequired": true
       }
     ],
@@ -272,7 +272,7 @@
     "Parameters": [
       {
         "Name": "produtoDto",
-        "Type": "TCC.Domain.DTOs.Produto.ProdutoAdicionarDto",
+        "Type": "Estetica.Easy.Domain.DTOs.Produto.ProdutoAdicionarDto",
         "IsRequired": true
       }
     ],
@@ -297,7 +297,7 @@
     "Parameters": [
       {
         "Name": "produtoAtualizarDto",
-        "Type": "TCC.Domain.DTOs.Produto.ProdutoAtualizarDto",
+        "Type": "Estetica.Easy.Domain.DTOs.Produto.ProdutoAtualizarDto",
         "IsRequired": true
       }
     ],
@@ -391,7 +391,7 @@
     "Parameters": [
       {
         "Name": "resetSenhaDto",
-        "Type": "TCC.Domain.DTOs.ResetSenha.ResetSenhaDto",
+        "Type": "Estetica.Easy.Domain.DTOs.ResetSenha.ResetSenhaDto",
         "IsRequired": true
       }
     ],
@@ -416,7 +416,7 @@
     "Parameters": [
       {
         "Name": "usuarioDto",
-        "Type": "TCC.Domain.DTOs.Usuario.UsuarioAdicionarDto",
+        "Type": "Estetica.Easy.Domain.DTOs.Usuario.UsuarioAdicionarDto",
         "IsRequired": true
       }
     ],
@@ -441,7 +441,7 @@
     "Parameters": [
       {
         "Name": "usuarioDto",
-        "Type": "TCC.Domain.DTOs.Usuario.UsuarioAtualizarDto",
+        "Type": "Estetica.Easy.Domain.DTOs.Usuario.UsuarioAtualizarDto",
         "IsRequired": true
       }
     ],
