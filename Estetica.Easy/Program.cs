@@ -82,7 +82,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("{49ff3b22-3c25-4919-8b5f-2a79dd7088a6}"))
     };
 });
-builder.Services.AddAuthorization();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador"));
+    options.AddPolicy("Usuario", policy => policy.RequireRole("Usuario", "Administrador"));
+});
 
 builder.Services.AddCors();
 
@@ -119,8 +124,7 @@ app.MapPost("categoria/adicionar", (MiraBeautyContext context, CategoriaAdiciona
     context.SaveChanges();
 
     return Results.Created("Created", "Categoria registrada com sucesso");
-}).RequireAuthorization().
-WithTags("Categoria");
+}).RequireAuthorization("Administrador").WithTags("Categoria");
 
 app.MapGet("categoria/listar", (MiraBeautyContext context) =>
 {
@@ -153,8 +157,7 @@ app.MapPut("categoria/atualizar", (MiraBeautyContext context, CategoriaAtualizar
 
     context.SaveChanges();
     return Results.Ok("Categoria atualizada com sucesso");
-}).RequireAuthorization().
-    WithTags("Categoria");
+}).RequireAuthorization("Administrador").WithTags("Categoria");
 
 app.MapDelete("categoria/deletar/{id:guid}", (MiraBeautyContext context, Guid id) =>
 {
@@ -166,8 +169,7 @@ app.MapDelete("categoria/deletar/{id:guid}", (MiraBeautyContext context, Guid id
     context.CategoriaSet.Remove(categoria);
     context.SaveChanges();
     return Results.Ok("Categoria deletada com sucesso");
-}).RequireAuthorization().
-    WithTags("Categoria");
+}).RequireAuthorization("Administrador").WithTags("Categoria");
 
 #endregion
 
@@ -425,7 +427,7 @@ app.MapPost("autenticar", (MiraBeautyContext context, LoginDto loginDto) =>
         new Claim("Id", usuario.Id.ToString()),
         new Claim("Nome", usuario.Nome),
         new Claim("Login", usuario.Email),
-        new Claim("Perfil", usuario.Perfil.ToString()),
+        new Claim(ClaimTypes.Role, usuario.Perfil.ToString()),
     };
 
     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("" + "{49ff3b22-3c25-4919-8b5f-2a79dd7088a6}"));
