@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TCC.Domain.Entities;
 
-namespace TCC.Configurations
+namespace TCC.Infra.Data.Configurations
 {
     public class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
     {
@@ -24,6 +24,9 @@ namespace TCC.Configurations
             builder.Property(p => p.Senha)
                 .IsRequired()
                 .HasMaxLength(250);
+
+            builder.Property(p => p.ChaveResetSenha)
+                .IsRequired(false);
 
             builder.ToTable("TB_Usuario");
         }

@@ -9,6 +9,6 @@ namespace TCC.Domain.Entities
         public string Email { get; set; } = string.Empty;
         public EnumPerfil Perfil { get; set; }
         public string Senha { get; set; } = string.Empty;
-        public string ConfirmacaoSenha { get; set; } = string.Empty;
+        public Guid? ChaveResetSenha { get; set; }
     }
 }

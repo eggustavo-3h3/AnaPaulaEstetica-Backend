@@ -1,7 +1,7 @@
 ﻿using TCC.Domain.DTOs.ProdutoImagem;
 using TCC.Domain.Enumerators;
 
-namespace TCC.Domain.Dtos
+namespace TCC.Domain.DTOs.Produto
 {
     public class ProdutoAtualizarDto
     {

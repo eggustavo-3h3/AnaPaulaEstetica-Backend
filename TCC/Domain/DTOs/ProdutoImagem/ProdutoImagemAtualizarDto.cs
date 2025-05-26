@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.Dtos
+﻿namespace TCC.Domain.DTOs.ProdutoImagem
 {
     public class ProdutoImagemUpdateDto
     {

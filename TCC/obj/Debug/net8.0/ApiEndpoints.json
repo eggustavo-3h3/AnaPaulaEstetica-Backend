@@ -95,7 +95,32 @@
   },
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
-    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_19",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_23",
+    "RelativePath": "alterar-senha",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "alterarSenhaDto",
+        "Type": "TCC.Domain.DTOs.AlterarSenha.AlterarSenhaDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Seguran\u00E7a"
+    ]
+  },
+  {
+    "ContainingType": "Program\u002B\u003C\u003Ec",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_20",
     "RelativePath": "autenticar",
     "HttpMethod": "POST",
     "IsController": false,
@@ -115,7 +140,7 @@
       }
     ],
     "Tags": [
-      "Autoriza\u00E7\u00E3o"
+      "Seguran\u00E7a"
     ]
   },
   {
@@ -153,7 +178,7 @@
     "Parameters": [
       {
         "Name": "categoriaDto",
-        "Type": "TCC.Domain.Dtos.CategoriaAtualizarDto",
+        "Type": "TCC.Domain.DTOs.Categoria.CategoriaAtualizarDto",
         "IsRequired": true
       }
     ],
@@ -214,6 +239,31 @@
   },
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_21",
+    "RelativePath": "gerar-chave-reset-senha",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "gerarResetSenhaDto",
+        "Type": "TCC.Domain.DTOs.ResetSenha.GerarResetSenhaDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Seguran\u00E7a"
+    ]
+  },
+  {
+    "ContainingType": "Program\u002B\u003C\u003Ec",
     "Method": "\u003C\u003CMain\u003E$\u003Eb__0_11",
     "RelativePath": "produto/adicionar",
     "HttpMethod": "POST",
@@ -239,7 +289,7 @@
   },
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
-    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_13",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_14",
     "RelativePath": "produto/atualizar",
     "HttpMethod": "PUT",
     "IsController": false,
@@ -247,7 +297,7 @@
     "Parameters": [
       {
         "Name": "produtoAtualizarDto",
-        "Type": "TCC.Domain.Dtos.ProdutoAtualizarDto",
+        "Type": "TCC.Domain.DTOs.Produto.ProdutoAtualizarDto",
         "IsRequired": true
       }
     ],
@@ -264,7 +314,7 @@
   },
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
-    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_14",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_15",
     "RelativePath": "produto/deletar/{id:guid}",
     "HttpMethod": "DELETE",
     "IsController": false,
@@ -308,7 +358,57 @@
   },
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
-    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_15",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_13",
+    "RelativePath": "produto/listar-por-categoria/{categoriaId:guid}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "categoriaId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Produto"
+    ]
+  },
+  {
+    "ContainingType": "Program\u002B\u003C\u003Ec",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_22",
+    "RelativePath": "resetar-senha",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "resetSenhaDto",
+        "Type": "TCC.Domain.DTOs.ResetSenha.ResetSenhaDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Seguran\u00E7a"
+    ]
+  },
+  {
+    "ContainingType": "Program\u002B\u003C\u003Ec",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_16",
     "RelativePath": "usuario/adicionar",
     "HttpMethod": "POST",
     "IsController": false,
@@ -326,11 +426,14 @@
         "MediaTypes": [],
         "StatusCode": 200
       }
+    ],
+    "Tags": [
+      "Usu\u00E1rio"
     ]
   },
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
-    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_17",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_18",
     "RelativePath": "usuario/atualizar",
     "HttpMethod": "PUT",
     "IsController": false,
@@ -338,7 +441,7 @@
     "Parameters": [
       {
         "Name": "usuarioDto",
-        "Type": "TCC.Domain.Dtos.UsuarioAtualizarDto",
+        "Type": "TCC.Domain.DTOs.Usuario.UsuarioAtualizarDto",
         "IsRequired": true
       }
     ],
@@ -355,7 +458,7 @@
   },
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
-    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_18",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_19",
     "RelativePath": "usuario/deletar/{id:guid}",
     "HttpMethod": "DELETE",
     "IsController": false,
@@ -380,7 +483,7 @@
   },
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
-    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_16",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_17",
     "RelativePath": "usuario/listar",
     "HttpMethod": "GET",
     "IsController": false,

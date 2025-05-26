@@ -4,14 +4,19 @@ using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using TCC.Domain.Dtos;
+using Microsoft.EntityFrameworkCore;
 using TCC.Domain.DTOs.Agendamento;
+using TCC.Domain.DTOs.AlterarSenha;
+using TCC.Domain.DTOs.Base;
 using TCC.Domain.DTOs.Categoria;
 using TCC.Domain.DTOs.Login;
 using TCC.Domain.DTOs.Produto;
+using TCC.Domain.DTOs.ResetSenha;
 using TCC.Domain.DTOs.Usuario;
 using TCC.Domain.Entities;
-using TCC.Infra.Data.Context; // Add this using directive
+using TCC.Domain.Extensions;
+using TCC.Infra.Data.Context;
+using TCC.Infra.Email; // Add this using directive
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -253,11 +258,12 @@ app.MapPost("produto/adicionar", (MiraBeautyContext context, ProdutoAdicionarDto
 
 app.MapGet("produto/listar", (MiraBeautyContext context) =>
 {
-    var listaProdutoDto = context.ProdutoSet.Select(pro => new ProdutoListarDto
+    var listaProdutoDto = context.ProdutoSet.Include(p => p.Categoria).Select(pro => new ProdutoListarDto
     {
         Id = pro.Id,
         Descricao = pro.Descricao,
         CategoriaId = pro.CategoriaId,
+        CategoriaDescricao = pro.Categoria.Descricao,
         Preco = pro.Preco,
         Tempo = pro.Tempo,
         ProdutoImagens = pro.ProdutoImagens.Select(i => new ProdutoImagem
@@ -268,6 +274,26 @@ app.MapGet("produto/listar", (MiraBeautyContext context) =>
     }).ToList();
     return Results.Ok(listaProdutoDto);
 }).RequireAuthorization().
+    WithTags("Produto");
+
+app.MapGet("produto/listar-por-categoria/{categoriaId:guid}", (MiraBeautyContext context, Guid categoriaId) =>
+    {
+        var listaProdutoDto = context.ProdutoSet.Include(p => p.Categoria).Where(p => p.CategoriaId == categoriaId).Select(pro => new ProdutoListarDto
+        {
+            Id = pro.Id,
+            Descricao = pro.Descricao,
+            CategoriaId = pro.CategoriaId,
+            CategoriaDescricao = pro.Categoria.Descricao,
+            Preco = pro.Preco,
+            Tempo = pro.Tempo,
+            ProdutoImagens = pro.ProdutoImagens.Select(i => new ProdutoImagem
+            {
+                Id = i.Id,
+                Imagem = i.Imagem
+            }).ToList()
+        }).ToList();
+        return Results.Ok(listaProdutoDto);
+    }).RequireAuthorization().
     WithTags("Produto");
 
 app.MapPut("produto/atualizar", (MiraBeautyContext context, ProdutoAtualizarDto produtoAtualizarDto) =>
@@ -328,12 +354,11 @@ app.MapPost("usuario/adicionar", (MiraBeautyContext context, UsuarioAdicionarDto
         Id = Guid.NewGuid(),
         Nome = usuarioDto.Nome,
         Email = usuarioDto.Email,
-        Senha = usuarioDto.Senha,
-        ConfirmacaoSenha = usuarioDto.ConfirmarSenha
+        Senha = usuarioDto.Senha.EncryptPassword()
     };
     context.UsuarioSet.Add(usuario);
     context.SaveChanges();
-    return Results.Created("Created", "Usu�rio registrado com sucesso");
+    return Results.Created("Created", "Usuário registrado com sucesso");
 }).WithTags("Usuário");
 
 app.MapGet("usuario/listar", (MiraBeautyContext context) =>
@@ -385,14 +410,17 @@ app.MapDelete("usuario/deletar/{id:guid}", (MiraBeautyContext context, Guid id) 
 
 #endregion
 
+#region Segurança
+
 app.MapPost("autenticar", (MiraBeautyContext context, LoginDto loginDto) =>
 {
-    var usuario = context.UsuarioSet.FirstOrDefault(p => p.Email == loginDto.Login && p.Senha == loginDto.Senha);
+    var usuario = context.UsuarioSet.FirstOrDefault(p => p.Email == loginDto.Login && p.Senha == loginDto.Senha.EncryptPassword());
     if (usuario is null)
         return Results.BadRequest("Usuário ou Senha Inválidos!");
 
     var claims = new[]
     {
+        new Claim("Id", usuario.Id.ToString()),
         new Claim("Nome", usuario.Nome),
         new Claim("Login", usuario.Email),
         new Claim("Perfil", usuario.Perfil.ToString()),
@@ -412,6 +440,72 @@ app.MapPost("autenticar", (MiraBeautyContext context, LoginDto loginDto) =>
     return Results.Ok(
     new JwtSecurityTokenHandler()
     .WriteToken(token));
-}).WithTags("Autorização");
+}).WithTags("Segurança");
+
+app.MapPost("gerar-chave-reset-senha", (MiraBeautyContext context, GerarResetSenhaDto gerarResetSenhaDto) =>
+{
+    var resultado = new GerarResetSenhaDtoValidator().Validate(gerarResetSenhaDto);
+    if (!resultado.IsValid)
+        return Results.BadRequest(resultado.Errors.Select(error => error.ErrorMessage));
+
+    var usuario = context.UsuarioSet.FirstOrDefault(p => p.Email == gerarResetSenhaDto.Email);
+
+    if (usuario is not null)
+    {
+        usuario.ChaveResetSenha = Guid.NewGuid();
+        context.UsuarioSet.Update(usuario);
+        context.SaveChanges();
+
+        var emailService = new EmailService();
+        var enviarEmailResponse = emailService.EnviarEmail(gerarResetSenhaDto.Email, "Reset de Senha", $"https://url-front/reset-senha/{usuario.ChaveResetSenha}", true);
+        if (!enviarEmailResponse.Sucesso)
+            return Results.BadRequest(new BaseResponse("Erro ao enviar o e-mail: " + enviarEmailResponse.Mensagem));
+    }
+
+    return Results.Ok(new BaseResponse("Se o e-mail informado estiver correto, você receberá as instruções por e-mail."));
+}).WithTags("Segurança");
+
+app.MapPut("resetar-senha", (MiraBeautyContext context, ResetSenhaDto resetSenhaDto) =>
+{
+    var resultado = new ResetSenhaDtoValidator().Validate(resetSenhaDto);
+    if (!resultado.IsValid)
+        return Results.BadRequest(resultado.Errors.Select(error => error.ErrorMessage));
+
+    var usuario = context.UsuarioSet.FirstOrDefault(p => p.ChaveResetSenha == resetSenhaDto.ChaveResetSenha);
+
+    if (usuario is null)
+        return Results.BadRequest(new BaseResponse("Chave de reset de senha inválida."));
+
+    usuario.Senha = resetSenhaDto.NovaSenha.EncryptPassword();
+    usuario.ChaveResetSenha = null;
+    context.UsuarioSet.Update(usuario);
+    context.SaveChanges();
+
+    return Results.Ok(new BaseResponse("Senha alterada com sucesso."));
+}).WithTags("Segurança");
+
+app.MapPut("alterar-senha", (MiraBeautyContext context, ClaimsPrincipal claims, AlterarSenhaDto alterarSenhaDto) =>
+{
+    var resultado = new AlterarSenhaDtoValidator().Validate(alterarSenhaDto);
+    if (!resultado.IsValid)
+        return Results.BadRequest(resultado.Errors.Select(error => error.ErrorMessage));
+
+    var userIdClaim = claims.FindFirst("Id")?.Value;
+    if (userIdClaim == null)
+        return Results.Unauthorized();
+
+    var userId = Guid.Parse(userIdClaim);
+    var startup = context.UsuarioSet.FirstOrDefault(p => p.Id == userId);
+    if (startup == null)
+        return Results.NotFound(new BaseResponse("Usuário não encontrado."));
+
+    startup.Senha = alterarSenhaDto.NovaSenha.EncryptPassword();
+    context.UsuarioSet.Update(startup);
+    context.SaveChanges();
+
+    return Results.Ok(new BaseResponse("Senha alterada com sucesso."));
+}).WithTags("Segurança");
+
+#endregion
 
 app.Run();

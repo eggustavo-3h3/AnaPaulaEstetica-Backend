@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using TCC.Domain.Dtos;
 
 namespace TCC.Domain.DTOs.Usuario
 {

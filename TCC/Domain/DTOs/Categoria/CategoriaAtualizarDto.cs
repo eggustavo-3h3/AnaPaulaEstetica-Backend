@@ -1,4 +1,4 @@
-﻿namespace TCC.Domain.Dtos
+﻿namespace TCC.Domain.DTOs.Categoria
 {
     public class CategoriaAtualizarDto
     {

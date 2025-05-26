@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TCC.Domain.Entities;
-namespace TCC.Configurations
+namespace TCC.Infra.Data.Configurations
 {
     public class CategoriaConfiguration : IEntityTypeConfiguration<Categoria>
     {

@@ -85,28 +85,6 @@
         }
       }
     },
-    "/autenticar": {
-      "post": {
-        "tags": [
-          "Autorização"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/categoria/adicionar": {
       "post": {
         "tags": [
@@ -220,6 +198,29 @@
         }
       }
     },
+    "/produto/listar-por-categoria/{categoriaId}": {
+      "get": {
+        "tags": [
+          "Produto"
+        ],
+        "parameters": [
+          {
+            "name": "categoriaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/produto/atualizar": {
       "put": {
         "tags": [
@@ -265,10 +266,98 @@
         }
       }
     },
+    "/autenticar": {
+      "post": {
+        "tags": [
+          "Segurança"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/gerar-chave-reset-senha": {
+      "post": {
+        "tags": [
+          "Segurança"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GerarResetSenhaDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/resetar-senha": {
+      "put": {
+        "tags": [
+          "Segurança"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetSenhaDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/alterar-senha": {
+      "put": {
+        "tags": [
+          "Segurança"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlterarSenhaDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/usuario/adicionar": {
       "post": {
         "tags": [
-          "TCC"
+          "Usuário"
         ],
         "requestBody": {
           "content": {
@@ -378,6 +467,24 @@
         },
         "additionalProperties": false
       },
+      "AlterarSenhaDto": {
+        "type": "object",
+        "properties": {
+          "senha": {
+            "type": "string",
+            "nullable": true
+          },
+          "novaSenha": {
+            "type": "string",
+            "nullable": true
+          },
+          "confirmarNovaSenha": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CategoriaAdicionarDto": {
         "type": "object",
         "properties": {
@@ -412,8 +519,8 @@
       },
       "EnumStatus": {
         "enum": [
-          0,
-          1
+          1,
+          2
         ],
         "type": "integer",
         "format": "int32"
@@ -421,10 +528,22 @@
       "EnumTempo": {
         "enum": [
           30,
-          60
+          60,
+          90,
+          120
         ],
         "type": "integer",
         "format": "int32"
+      },
+      "GerarResetSenhaDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "LoginDto": {
         "type": "object",
@@ -504,6 +623,24 @@
         "type": "object",
         "properties": {
           "imagem": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResetSenhaDto": {
+        "type": "object",
+        "properties": {
+          "chaveResetSenha": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "novaSenha": {
+            "type": "string",
+            "nullable": true
+          },
+          "confirmarNovaSenha": {
             "type": "string",
             "nullable": true
           }

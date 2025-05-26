@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TCC.Configurations;
 using TCC.Domain.Entities;
+using TCC.Infra.Data.Configurations;
 
 namespace TCC.Infra.Data.Context
 {

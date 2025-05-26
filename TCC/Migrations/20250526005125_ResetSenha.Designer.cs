@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TCC.Infra.Data.Context;
 
@@ -10,9 +11,11 @@ using TCC.Infra.Data.Context;
 namespace TCC.Migrations
 {
     [DbContext(typeof(MiraBeautyContext))]
-    partial class MiraBeautyContextModelSnapshot : ModelSnapshot
+    [Migration("20250526005125_ResetSenha")]
+    partial class ResetSenha
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,6 +157,10 @@ namespace TCC.Migrations
 
                     b.Property<Guid?>("ChaveResetSenha")
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("ConfirmacaoSenha")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .IsRequired()
