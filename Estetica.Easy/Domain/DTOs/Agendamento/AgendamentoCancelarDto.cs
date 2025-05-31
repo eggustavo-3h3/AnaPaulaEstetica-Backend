@@ -1,6 +1,6 @@
 ﻿namespace Estetica.Easy.Domain.DTOs.Agendamento
 {
-    public class AgendamentoExcluirDto
+    public class AgendamentoCancelarDto
     {
         public Guid Id { get; set; }
     }

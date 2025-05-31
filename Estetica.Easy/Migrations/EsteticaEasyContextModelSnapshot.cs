@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace TCC.Migrations
+namespace Estetica.Easy.Migrations
 {
-    [DbContext(typeof(MiraBeautyContext))]
-    partial class MiraBeautyContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(EsteticaEasyContext))]
+    partial class EsteticaEasyContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -19,32 +19,31 @@ namespace TCC.Migrations
                 .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("TCC.Domain.Entities.Agendamento", b =>
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.Agendamento", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<DateTime>("DataHoraFinal")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DataHoraInicial")
-                        .HasColumnType("datetime(6)");
+                    b.Property<Guid>("ProdutoId")
+                        .HasColumnType("char(36)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("Usuarioid")
+                    b.Property<Guid>("UsuarioId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Usuarioid");
+                    b.HasIndex("ProdutoId");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("TB_Agendamento", (string)null);
                 });
 
-            modelBuilder.Entity("TCC.Domain.Entities.AgendamentoProduto", b =>
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.AgendamentoHorario", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,19 +52,20 @@ namespace TCC.Migrations
                     b.Property<Guid>("AgendamentoId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("ProdutoId")
-                        .HasColumnType("char(36)");
+                    b.Property<DateOnly>("Data")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly>("Hora")
+                        .HasColumnType("time(6)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AgendamentoId");
 
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("TB_AgendamentoProduto", (string)null);
+                    b.ToTable("TB_AgendamentoHorario", (string)null);
                 });
 
-            modelBuilder.Entity("TCC.Domain.Entities.Categoria", b =>
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.Categoria", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -85,7 +85,7 @@ namespace TCC.Migrations
                     b.ToTable("TB_Categoria", (string)null);
                 });
 
-            modelBuilder.Entity("TCC.Domain.Entities.Configuracao", b =>
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.Configuracao", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -99,7 +99,7 @@ namespace TCC.Migrations
                     b.ToTable("TB_Configuracao", (string)null);
                 });
 
-            modelBuilder.Entity("TCC.Domain.Entities.Produto", b =>
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.Produto", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -126,7 +126,7 @@ namespace TCC.Migrations
                     b.ToTable("TB_Produto", (string)null);
                 });
 
-            modelBuilder.Entity("TCC.Domain.Entities.ProdutoImagem", b =>
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.ProdutoImagem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -146,7 +146,7 @@ namespace TCC.Migrations
                     b.ToTable("TB_ProdutoImagem", (string)null);
                 });
 
-            modelBuilder.Entity("TCC.Domain.Entities.Usuario", b =>
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -178,39 +178,39 @@ namespace TCC.Migrations
                     b.ToTable("TB_Usuario", (string)null);
                 });
 
-            modelBuilder.Entity("TCC.Domain.Entities.Agendamento", b =>
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.Agendamento", b =>
                 {
-                    b.HasOne("TCC.Domain.Entities.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("Usuarioid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("TCC.Domain.Entities.AgendamentoProduto", b =>
-                {
-                    b.HasOne("TCC.Domain.Entities.Agendamento", "Agendamento")
-                        .WithMany()
-                        .HasForeignKey("AgendamentoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TCC.Domain.Entities.Produto", "Produto")
+                    b.HasOne("Estetica.Easy.Domain.Entities.Produto", "Produto")
                         .WithMany()
                         .HasForeignKey("ProdutoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Agendamento");
+                    b.HasOne("Estetica.Easy.Domain.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Produto");
+
+                    b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("TCC.Domain.Entities.Produto", b =>
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.AgendamentoHorario", b =>
                 {
-                    b.HasOne("TCC.Domain.Entities.Categoria", "Categoria")
+                    b.HasOne("Estetica.Easy.Domain.Entities.Agendamento", "Agendamento")
+                        .WithMany("Horarios")
+                        .HasForeignKey("AgendamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Agendamento");
+                });
+
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.Produto", b =>
+                {
+                    b.HasOne("Estetica.Easy.Domain.Entities.Categoria", "Categoria")
                         .WithMany()
                         .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -219,14 +219,19 @@ namespace TCC.Migrations
                     b.Navigation("Categoria");
                 });
 
-            modelBuilder.Entity("TCC.Domain.Entities.ProdutoImagem", b =>
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.ProdutoImagem", b =>
                 {
-                    b.HasOne("TCC.Domain.Entities.Produto", null)
+                    b.HasOne("Estetica.Easy.Domain.Entities.Produto", null)
                         .WithMany("ProdutoImagens")
                         .HasForeignKey("ProdutoId");
                 });
 
-            modelBuilder.Entity("TCC.Domain.Entities.Produto", b =>
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.Agendamento", b =>
+                {
+                    b.Navigation("Horarios");
+                });
+
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.Produto", b =>
                 {
                     b.Navigation("ProdutoImagens");
                 });

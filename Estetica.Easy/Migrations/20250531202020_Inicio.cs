@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace TCC.Migrations
+namespace Estetica.Easy.Migrations
 {
     /// <inheritdoc />
-    public partial class Atualizado : Migration
+    public partial class Inicio : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,8 +55,7 @@ namespace TCC.Migrations
                     Perfil = table.Column<int>(type: "int", nullable: false),
                     Senha = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ConfirmacaoSenha = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    ChaveResetSenha = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -92,17 +91,22 @@ namespace TCC.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Usuarioid = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    DataHoraInicial = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    DataHoraFinal = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ProdutoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TB_Agendamento", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TB_Agendamento_TB_Usuario_Usuarioid",
-                        column: x => x.Usuarioid,
+                        name: "FK_TB_Agendamento_TB_Produto_ProdutoId",
+                        column: x => x.ProdutoId,
+                        principalTable: "TB_Produto",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TB_Agendamento_TB_Usuario_UsuarioId",
+                        column: x => x.UsuarioId,
                         principalTable: "TB_Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -130,45 +134,40 @@ namespace TCC.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "TB_AgendamentoProduto",
+                name: "TB_AgendamentoHorario",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     AgendamentoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ProdutoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    Data = table.Column<DateOnly>(type: "date", nullable: false),
+                    Hora = table.Column<TimeOnly>(type: "time(6)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TB_AgendamentoProduto", x => x.Id);
+                    table.PrimaryKey("PK_TB_AgendamentoHorario", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TB_AgendamentoProduto_TB_Agendamento_AgendamentoId",
+                        name: "FK_TB_AgendamentoHorario_TB_Agendamento_AgendamentoId",
                         column: x => x.AgendamentoId,
                         principalTable: "TB_Agendamento",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TB_AgendamentoProduto_TB_Produto_ProdutoId",
-                        column: x => x.ProdutoId,
-                        principalTable: "TB_Produto",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TB_Agendamento_Usuarioid",
+                name: "IX_TB_Agendamento_ProdutoId",
                 table: "TB_Agendamento",
-                column: "Usuarioid");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TB_AgendamentoProduto_AgendamentoId",
-                table: "TB_AgendamentoProduto",
-                column: "AgendamentoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TB_AgendamentoProduto_ProdutoId",
-                table: "TB_AgendamentoProduto",
                 column: "ProdutoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TB_Agendamento_UsuarioId",
+                table: "TB_Agendamento",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TB_AgendamentoHorario_AgendamentoId",
+                table: "TB_AgendamentoHorario",
+                column: "AgendamentoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TB_Produto_CategoriaId",
@@ -185,7 +184,7 @@ namespace TCC.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TB_AgendamentoProduto");
+                name: "TB_AgendamentoHorario");
 
             migrationBuilder.DropTable(
                 name: "TB_Configuracao");

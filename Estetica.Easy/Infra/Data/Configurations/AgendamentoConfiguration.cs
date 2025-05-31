@@ -10,18 +10,16 @@ namespace Estetica.Easy.Infra.Data.Configurations
         {
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.DataHoraInicial)
+            builder.Property(p => p.UsuarioId)
                 .IsRequired();
 
-            builder.Property(p => p.DataHoraFinal)
+            builder.Property(p => p.ProdutoId)
                 .IsRequired();
 
             builder.Property(p => p.Status)
                 .IsRequired();
 
             builder.ToTable("TB_Agendamento");
-
-            // Outras configurações conforme necessário
         }
     }
 }

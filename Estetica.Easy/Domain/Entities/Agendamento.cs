@@ -5,13 +5,16 @@ namespace Estetica.Easy.Domain.Entities
     public class Agendamento
     {
         public Guid Id { get; set; }
-        public Guid Usuarioid { get; set; }
-        public DateTime DataHoraInicial { get; set; }
-        public DateTime DataHoraFinal { get; set; }
-        public EnumStatus Status { get; set; }
+        public Guid UsuarioId { get; set; }
+        public Guid ProdutoId { get; set; }
+        public EnumStatus Status { get; set; } = EnumStatus.Agendado;
+        public List<AgendamentoHorario> Horarios { get; set; } = [];
 
         #region Propriedade de Navegabilidde
-        public Usuario Usuario { get; set; }
+
+        public Usuario Usuario { get; set; } = null!;
+        public Produto Produto { get; set; } = null!;
+
         #endregion
     }
 }

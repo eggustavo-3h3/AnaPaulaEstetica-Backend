@@ -13,9 +13,11 @@ using Estetica.Easy.Domain.DTOs.Produto;
 using Estetica.Easy.Domain.DTOs.ResetSenha;
 using Estetica.Easy.Domain.DTOs.Usuario;
 using Estetica.Easy.Domain.Entities;
+using Estetica.Easy.Domain.Enumerators;
 using Estetica.Easy.Domain.Extensions;
 using Estetica.Easy.Infra.Data.Context;
 using Estetica.Easy.Infra.Email;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 // Add this using directive
@@ -66,7 +68,7 @@ builder.Services.AddSwaggerGen(config =>
             });
 });
 
-builder.Services.AddDbContext<MiraBeautyContext>();
+builder.Services.AddDbContext<EsteticaEasyContext>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
@@ -104,7 +106,7 @@ app.UseCors(x => x
 
 #region Endpoints Categoria
 
-app.MapPost("categoria/adicionar", (MiraBeautyContext context, CategoriaAdicionarDto categoriaDto) =>
+app.MapPost("categoria/adicionar", (EsteticaEasyContext context, CategoriaAdicionarDto categoriaDto) =>
 {
     var resultado = new CategoriaAdicionarDtoValidator().Validate(categoriaDto);
 
@@ -126,7 +128,7 @@ app.MapPost("categoria/adicionar", (MiraBeautyContext context, CategoriaAdiciona
     return Results.Created("Created", "Categoria registrada com sucesso");
 }).RequireAuthorization("Administrador").WithTags("Categoria");
 
-app.MapGet("categoria/listar", (MiraBeautyContext context) =>
+app.MapGet("categoria/listar", (EsteticaEasyContext context) =>
 {
     var listaCategoriaDto = context.CategoriaSet.Select(cat => new CategoriaListarDto
     {
@@ -138,7 +140,7 @@ app.MapGet("categoria/listar", (MiraBeautyContext context) =>
     return Results.Ok(listaCategoriaDto);
 }).WithTags("Categoria");
 
-app.MapPut("categoria/atualizar", (MiraBeautyContext context, CategoriaAtualizarDto categoriaDto) =>
+app.MapPut("categoria/atualizar", (EsteticaEasyContext context, CategoriaAtualizarDto categoriaDto) =>
 {
     var resultado = new CategoriaAtualizarDtoValidator().Validate(categoriaDto);
 
@@ -159,7 +161,7 @@ app.MapPut("categoria/atualizar", (MiraBeautyContext context, CategoriaAtualizar
     return Results.Ok("Categoria atualizada com sucesso");
 }).RequireAuthorization("Administrador").WithTags("Categoria");
 
-app.MapDelete("categoria/deletar/{id:guid}", (MiraBeautyContext context, Guid id) =>
+app.MapDelete("categoria/deletar/{id:guid}", (EsteticaEasyContext context, Guid id) =>
 {
     var categoria = context.CategoriaSet.Find(id);
     if (categoria == null)
@@ -174,65 +176,161 @@ app.MapDelete("categoria/deletar/{id:guid}", (MiraBeautyContext context, Guid id
 #endregion
 
 #region Endpoints Agendamento
-app.MapPost("agendamento/adicionar", (MiraBeautyContext context, AgendamentoProdutoAdicionarDto agendamentoDto) =>
+
+app.MapPost("agendamento/adicionar", (EsteticaEasyContext context, ClaimsPrincipal claims, AgendamentoAdcionarDto agendamentoAdicionarDto) =>
     {
+        var produto = context.ProdutoSet.Find(agendamentoAdicionarDto.ProdutoId);
+        if (produto is null)
+            return Results.BadRequest("Produto não encontrado.");
+
+        var usuarioIdClaim = claims.FindFirst("Id")?.Value;
+        if (usuarioIdClaim == null)
+            return Results.Unauthorized();
+
+        var usuarioId = Guid.Parse(usuarioIdClaim);
+
+        var agendatamnetoId = Guid.NewGuid();
+        List<AgendamentoHorario> horarios = [];
+
+        switch (produto.Tempo)
+        {
+            case EnumTempo.MeiaHora:
+                horarios.Add(new AgendamentoHorario
+                {
+                    Id = Guid.NewGuid(),
+                    AgendamentoId = agendatamnetoId,
+                    Data = agendamentoAdicionarDto.Data,
+                    Hora = agendamentoAdicionarDto.Hora
+                });
+                break;
+            case EnumTempo.UmaHora:
+                horarios.Add(new AgendamentoHorario
+                {
+                    Id = Guid.NewGuid(),
+                    AgendamentoId = agendatamnetoId,
+                    Data = agendamentoAdicionarDto.Data,
+                    Hora = agendamentoAdicionarDto.Hora
+                });
+
+                horarios.Add(new AgendamentoHorario
+                {
+                    Id = Guid.NewGuid(),
+                    AgendamentoId = agendatamnetoId,
+                    Data = agendamentoAdicionarDto.Data,
+                    Hora = agendamentoAdicionarDto.Hora.AddMinutes(30)
+                });
+
+                break;
+            case EnumTempo.UmaHoraMeia:
+                horarios.Add(new AgendamentoHorario
+                {
+                    Id = Guid.NewGuid(),
+                    AgendamentoId = agendatamnetoId,
+                    Data = agendamentoAdicionarDto.Data,
+                    Hora = agendamentoAdicionarDto.Hora
+                });
+
+                horarios.Add(new AgendamentoHorario
+                {
+                    Id = Guid.NewGuid(),
+                    AgendamentoId = agendatamnetoId,
+                    Data = agendamentoAdicionarDto.Data,
+                    Hora = agendamentoAdicionarDto.Hora.AddMinutes(30)
+                });
+
+                horarios.Add(new AgendamentoHorario
+                {
+                    Id = Guid.NewGuid(),
+                    AgendamentoId = agendatamnetoId,
+                    Data = agendamentoAdicionarDto.Data,
+                    Hora = agendamentoAdicionarDto.Hora.AddMinutes(60)
+                });
+
+                break;
+            case EnumTempo.DuasHoras:
+                horarios.Add(new AgendamentoHorario
+                {
+                    Id = Guid.NewGuid(),
+                    AgendamentoId = agendatamnetoId,
+                    Data = agendamentoAdicionarDto.Data,
+                    Hora = agendamentoAdicionarDto.Hora
+                });
+
+                horarios.Add(new AgendamentoHorario
+                {
+                    Id = Guid.NewGuid(),
+                    AgendamentoId = agendatamnetoId,
+                    Data = agendamentoAdicionarDto.Data,
+                    Hora = agendamentoAdicionarDto.Hora.AddMinutes(30)
+                });
+
+                horarios.Add(new AgendamentoHorario
+                {
+                    Id = Guid.NewGuid(),
+                    AgendamentoId = agendatamnetoId,
+                    Data = agendamentoAdicionarDto.Data,
+                    Hora = agendamentoAdicionarDto.Hora.AddMinutes(60)
+                });
+
+                horarios.Add(new AgendamentoHorario
+                {
+                    Id = Guid.NewGuid(),
+                    AgendamentoId = agendatamnetoId,
+                    Data = agendamentoAdicionarDto.Data,
+                    Hora = agendamentoAdicionarDto.Hora.AddMinutes(90)
+                });
+
+                break;
+            default:
+                return Results.BadRequest("Tempo Inválido.");
+        }
+
         var agendamento = new Agendamento
         {
-            Id = Guid.NewGuid()
+            Id = agendatamnetoId,
+            UsuarioId = usuarioId,
+            ProdutoId = agendamentoAdicionarDto.ProdutoId,
+            Horarios = horarios
         };
 
         context.AgendamentoSet.Add(agendamento);
         context.SaveChanges();
         return Results.Created("Created", "Agendamento registrado com sucesso");
-    }).RequireAuthorization().
-    WithTags("Agendamento");
+    }).RequireAuthorization().WithTags("Agendamento");
 
-app.MapGet("agendamento/listar", (MiraBeautyContext context) =>
+app.MapGet("agendamento/listar", (EsteticaEasyContext context) =>
 {
-    var listaAgendamentoDto = context.AgendamentoSet.Select(agen => new AgendamentoListarDto
-    {
-        Id = agen.Id,
-        DataHoraFinal = agen.DataHoraFinal,
-        DataHoraInicial = agen.DataHoraInicial,
-        Status = agen.Status,
-    }).ToList();
-    return Results.Ok(listaAgendamentoDto);
-}).RequireAuthorization().
-    WithTags("Agendamento");
+    //var listaAgendamentoDto = context.AgendamentoSet.Select(agen => new AgendamentoListarDto
+    //{
+    //    Id = agen.Id,
+    //    DataHoraFinal = agen.DataHoraFinal,
+    //    DataHoraInicial = agen.DataHoraInicial,
+    //    Status = agen.Status,
+    //}).ToList();
+    //return Results.Ok(listaAgendamentoDto);
+}).RequireAuthorization().WithTags("Agendamento");
 
-app.MapPut("agendamento/atualizar", (MiraBeautyContext context, AgendamentoAtualizarDto agendamentoDto) =>
+app.MapGet("agendamento/horarios-disponiveis", (EsteticaEasyContext context, [FromQuery] DateOnly dataBase) =>
 {
-    var agendamento = context.AgendamentoSet.Find(agendamentoDto.Id);
-    if (agendamento == null)
-    {
-        return Results.NotFound();
-    }
-    agendamento.DataHoraFinal = agendamentoDto.DataHoraFinal;
-    agendamento.DataHoraInicial = agendamentoDto.DataHoraInicial;
-    agendamento.Status = agendamentoDto.Status;
-    context.SaveChanges();
-    return Results.Ok("Agendamento atualizado com sucesso");
-}).RequireAuthorization().
-    WithTags("Agendamento");
+    var horariosDisponiveis = new List<AgendamentoHorarioDisponivel>();
+    var horariosOcupados = context.AgendamentoSet
+        .Include(a => a.Horarios)
+        .Where(a => a.Horarios.Any(h => h.Data == dataBase))
+        .SelectMany(a => a.Horarios.Where(h => h.Data == dataBase))
+        .Select(h => h.Hora)
+        .ToList();
 
-app.MapDelete("agendamento/deletar/{id:guid}", (MiraBeautyContext context, Guid id) =>
-{
-    var agendamento = context.AgendamentoSet.Find(id);
-    if (agendamento == null)
-    {
-        return Results.NotFound();
-    }
-    context.AgendamentoSet.Remove(agendamento);
-    context.SaveChanges();
-    return Results.Ok("Agendamento deletado com sucesso");
-}).RequireAuthorization().
-    WithTags("Agendamento");
+    for (var hora = new TimeOnly(8, 0); hora < new TimeOnly(19, 0); hora = hora.AddMinutes(30))
+        horariosDisponiveis.Add(new AgendamentoHorarioDisponivel(hora, horariosOcupados.Contains(hora)));
+
+    return Results.Ok(horariosDisponiveis);
+}).WithTags("Agendamento");
 
 #endregion
 
 #region Endpoints Produto
 
-app.MapPost("produto/adicionar", (MiraBeautyContext context, ProdutoAdicionarDto produtoDto) =>
+app.MapPost("produto/adicionar", (EsteticaEasyContext context, ProdutoAdicionarDto produtoDto) =>
 {
     var resultado = new ProdutoAdicionarDtoValidator().Validate(produtoDto);
 
@@ -260,7 +358,7 @@ app.MapPost("produto/adicionar", (MiraBeautyContext context, ProdutoAdicionarDto
 }).RequireAuthorization().
     WithTags("Produto");
 
-app.MapGet("produto/listar", (MiraBeautyContext context) =>
+app.MapGet("produto/listar", (EsteticaEasyContext context) =>
 {
     var listaProdutoDto = context.ProdutoSet.Include(p => p.Categoria).Select(pro => new ProdutoListarDto
     {
@@ -280,7 +378,7 @@ app.MapGet("produto/listar", (MiraBeautyContext context) =>
 }).RequireAuthorization().
     WithTags("Produto");
 
-app.MapGet("produto/listar-por-categoria/{categoriaId:guid}", (MiraBeautyContext context, Guid categoriaId) =>
+app.MapGet("produto/listar-por-categoria/{categoriaId:guid}", (EsteticaEasyContext context, Guid categoriaId) =>
     {
         var listaProdutoDto = context.ProdutoSet.Include(p => p.Categoria).Where(p => p.CategoriaId == categoriaId).Select(pro => new ProdutoListarDto
         {
@@ -299,7 +397,7 @@ app.MapGet("produto/listar-por-categoria/{categoriaId:guid}", (MiraBeautyContext
         return Results.Ok(listaProdutoDto);
     }).WithTags("Produto");
 
-app.MapPut("produto/atualizar", (MiraBeautyContext context, ProdutoAtualizarDto produtoAtualizarDto) =>
+app.MapPut("produto/atualizar", (EsteticaEasyContext context, ProdutoAtualizarDto produtoAtualizarDto) =>
 {
     var resultado = new ProdutoAtualizarDtoValidator().Validate(produtoAtualizarDto);
 
@@ -326,7 +424,7 @@ app.MapPut("produto/atualizar", (MiraBeautyContext context, ProdutoAtualizarDto 
 }).RequireAuthorization().
     WithTags("Produto");
 
-app.MapDelete("produto/deletar/{id:guid}", (MiraBeautyContext context, Guid id) =>
+app.MapDelete("produto/deletar/{id:guid}", (EsteticaEasyContext context, Guid id) =>
 {
     var produto = context.ProdutoSet.Find(id);
     if (produto == null)
@@ -343,7 +441,7 @@ app.MapDelete("produto/deletar/{id:guid}", (MiraBeautyContext context, Guid id) 
 
 #region Endpoints Usuario
 
-app.MapPost("usuario/adicionar", (MiraBeautyContext context, UsuarioAdicionarDto usuarioDto) =>
+app.MapPost("usuario/adicionar", (EsteticaEasyContext context, UsuarioAdicionarDto usuarioDto) =>
 {
     var resultado = new UsuarioAdicionarDtoValidator().Validate(usuarioDto);
 
@@ -364,7 +462,7 @@ app.MapPost("usuario/adicionar", (MiraBeautyContext context, UsuarioAdicionarDto
     return Results.Created("Created", "Usuário registrado com sucesso");
 }).WithTags("Usuário");
 
-app.MapGet("usuario/listar", (MiraBeautyContext context) =>
+app.MapGet("usuario/listar", (EsteticaEasyContext context) =>
 {
     var listaUsuarioDto = context.UsuarioSet.Select(user => new UsuarioListarDto
     {
@@ -377,7 +475,7 @@ app.MapGet("usuario/listar", (MiraBeautyContext context) =>
 }).RequireAuthorization().
     WithTags("Usuário");
 
-app.MapPut("usuario/atualizar", (MiraBeautyContext context, UsuarioAtualizarDto usuarioDto) =>
+app.MapPut("usuario/atualizar", (EsteticaEasyContext context, UsuarioAtualizarDto usuarioDto) =>
 {
     var resultado = new UsuarioAtualizarDtoValidator().Validate(usuarioDto);
 
@@ -398,7 +496,7 @@ app.MapPut("usuario/atualizar", (MiraBeautyContext context, UsuarioAtualizarDto 
 }).RequireAuthorization().
     WithTags("Usuário");
 
-app.MapDelete("usuario/deletar/{id:guid}", (MiraBeautyContext context, Guid id) =>
+app.MapDelete("usuario/deletar/{id:guid}", (EsteticaEasyContext context, Guid id) =>
 {
     var usuario = context.UsuarioSet.Find(id);
     if (usuario == null)
@@ -415,7 +513,7 @@ app.MapDelete("usuario/deletar/{id:guid}", (MiraBeautyContext context, Guid id) 
 
 #region Segurança
 
-app.MapPost("autenticar", (MiraBeautyContext context, LoginDto loginDto) =>
+app.MapPost("autenticar", (EsteticaEasyContext context, LoginDto loginDto) =>
 {
     var usuario = context.UsuarioSet.FirstOrDefault(p => p.Email == loginDto.Login && p.Senha == loginDto.Senha.EncryptPassword());
     if (usuario is null)
@@ -445,7 +543,7 @@ app.MapPost("autenticar", (MiraBeautyContext context, LoginDto loginDto) =>
     .WriteToken(token));
 }).WithTags("Segurança");
 
-app.MapPost("gerar-chave-reset-senha", (MiraBeautyContext context, GerarResetSenhaDto gerarResetSenhaDto) =>
+app.MapPost("gerar-chave-reset-senha", (EsteticaEasyContext context, GerarResetSenhaDto gerarResetSenhaDto) =>
 {
     var resultado = new GerarResetSenhaDtoValidator().Validate(gerarResetSenhaDto);
     if (!resultado.IsValid)
@@ -468,7 +566,7 @@ app.MapPost("gerar-chave-reset-senha", (MiraBeautyContext context, GerarResetSen
     return Results.Ok(new BaseResponse("Se o e-mail informado estiver correto, você receberá as instruções por e-mail."));
 }).WithTags("Segurança");
 
-app.MapPut("resetar-senha", (MiraBeautyContext context, ResetSenhaDto resetSenhaDto) =>
+app.MapPut("resetar-senha", (EsteticaEasyContext context, ResetSenhaDto resetSenhaDto) =>
 {
     var resultado = new ResetSenhaDtoValidator().Validate(resetSenhaDto);
     if (!resultado.IsValid)
@@ -487,7 +585,7 @@ app.MapPut("resetar-senha", (MiraBeautyContext context, ResetSenhaDto resetSenha
     return Results.Ok(new BaseResponse("Senha alterada com sucesso."));
 }).WithTags("Segurança");
 
-app.MapPut("alterar-senha", (MiraBeautyContext context, ClaimsPrincipal claims, AlterarSenhaDto alterarSenhaDto) =>
+app.MapPut("alterar-senha", (EsteticaEasyContext context, ClaimsPrincipal claims, AlterarSenhaDto alterarSenhaDto) =>
 {
     var resultado = new AlterarSenhaDtoValidator().Validate(alterarSenhaDto);
     if (!resultado.IsValid)

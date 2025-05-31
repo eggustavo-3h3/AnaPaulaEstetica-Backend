@@ -1,16 +1,15 @@
 ﻿namespace Estetica.Easy.Domain.Entities
 {
-    public class AgendamentoProduto
+    public class AgendamentoHorario
     {
         public Guid Id { get; set; }
         public Guid AgendamentoId { get; set; }
-        public Guid ProdutoId { get; set; }
+        public DateOnly Data { get; set; }
+        public TimeOnly Hora { get; set; }
 
         #region Propriedades de Navegabilidade
 
-        public Agendamento Agendamento { get; set; }
-        public Produto Produto { get; set; }
-
+        public Agendamento Agendamento { get; set; } = null!;
 
         #endregion
 

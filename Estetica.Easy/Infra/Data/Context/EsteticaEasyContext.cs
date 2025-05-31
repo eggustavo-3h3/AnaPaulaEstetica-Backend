@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Estetica.Easy.Infra.Data.Context
 {
-    public class MiraBeautyContext : DbContext
+    public class EsteticaEasyContext : DbContext
     {
         public DbSet<Produto> ProdutoSet { get; set; }
         public DbSet<ProdutoImagem> ImagemProdutoSet { get; set; }
         public DbSet<Usuario> UsuarioSet { get; set; }
         public DbSet<Configuracao> ConfiguracaoSet { get; set; }
         public DbSet<Categoria> CategoriaSet { get; set; }
-        public DbSet<AgendamentoProduto> AgendamentoProdutoSet { get; set; }
+        public DbSet<AgendamentoHorario> AgendamentoProdutoSet { get; set; }
         public DbSet<Agendamento> AgendamentoSet { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace Estetica.Easy.Infra.Data.Context
             modelBuilder.ApplyConfiguration(new ConfiguracaoConfiguration());
             modelBuilder.ApplyConfiguration(new AgendamentoConfiguration());
             modelBuilder.ApplyConfiguration(new ProdutoImagemConfiguration());
-            modelBuilder.ApplyConfiguration(new AgendamentoProdutoConfiguration());
+            modelBuilder.ApplyConfiguration(new AgendamentoHorarioConfiguration());
 
             base.OnModelCreating(modelBuilder);
             // Configurações adicionais de mapeamento podem ser feitas aqui
