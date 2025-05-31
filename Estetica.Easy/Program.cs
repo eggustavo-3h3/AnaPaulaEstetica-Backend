@@ -298,21 +298,41 @@ app.MapPost("agendamento/adicionar", (EsteticaEasyContext context, ClaimsPrincip
         return Results.Created("Created", "Agendamento registrado com sucesso");
     }).RequireAuthorization().WithTags("Agendamento");
 
-app.MapGet("agendamento/listar", (EsteticaEasyContext context) =>
+app.MapGet("agendamento/listar", (EsteticaEasyContext context, ClaimsPrincipal claims) =>
 {
-    //var listaAgendamentoDto = context.AgendamentoSet.Select(agen => new AgendamentoListarDto
-    //{
-    //    Id = agen.Id,
-    //    DataHoraFinal = agen.DataHoraFinal,
-    //    DataHoraInicial = agen.DataHoraInicial,
-    //    Status = agen.Status,
-    //}).ToList();
-    //return Results.Ok(listaAgendamentoDto);
+    var usuarioIdClaim = claims.FindFirst("Id")?.Value;
+    if (usuarioIdClaim == null)
+        return Results.Unauthorized();
+
+    var usuarioId = Guid.Parse(usuarioIdClaim);
+
+    var agendamentos = context.AgendamentoSet
+        .Include(p => p.Horarios)
+        .Where(p => p.UsuarioId == usuarioId)
+        .ToList()
+        .Select(agendamento =>
+        {
+            var horariosOrdenados = agendamento.Horarios.OrderBy(h => h.Hora).ToList();
+
+            return new AgendamentoListarDto
+            {
+                Id = agendamento.Id,
+                Data = horariosOrdenados.First().Data,
+                HoraInicial = horariosOrdenados.First().Hora,
+                HoraFinal = horariosOrdenados.Last().Hora,
+                Status = agendamento.Status,
+            };
+        })
+        .OrderBy(dto => dto.HoraInicial) // aqui você ordena pela hora inicial
+        .ToList();
+
+    return Results.Ok(agendamentos);
 }).RequireAuthorization().WithTags("Agendamento");
 
 app.MapGet("agendamento/horarios-disponiveis", (EsteticaEasyContext context, [FromQuery] DateOnly dataBase) =>
 {
     var horariosDisponiveis = new List<AgendamentoHorarioDisponivel>();
+
     var horariosOcupados = context.AgendamentoSet
         .Include(a => a.Horarios)
         .Where(a => a.Horarios.Any(h => h.Data == dataBase))
