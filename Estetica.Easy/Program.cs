@@ -297,8 +297,7 @@ app.MapGet("produto/listar-por-categoria/{categoriaId:guid}", (MiraBeautyContext
             }).ToList()
         }).ToList();
         return Results.Ok(listaProdutoDto);
-    }).RequireAuthorization().
-    WithTags("Produto");
+    }).WithTags("Produto");
 
 app.MapPut("produto/atualizar", (MiraBeautyContext context, ProdutoAtualizarDto produtoAtualizarDto) =>
 {
