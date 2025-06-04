@@ -375,7 +375,7 @@ app.MapPost("produto/adicionar", (EsteticaEasyContext context, ProdutoAdicionarD
     context.ProdutoSet.Add(produto);
     context.SaveChanges();
     return Results.Created("Created", "Produto registrado com sucesso");
-}).RequireAuthorization().
+}).RequireAuthorization("Administrador").
     WithTags("Produto");
 
 app.MapGet("produto/listar", (EsteticaEasyContext context) =>
@@ -395,8 +395,7 @@ app.MapGet("produto/listar", (EsteticaEasyContext context) =>
         }).ToList()
     }).ToList();
     return Results.Ok(listaProdutoDto);
-}).RequireAuthorization().
-    WithTags("Produto");
+}).WithTags("Produto");
 
 app.MapGet("produto/listar-por-categoria/{categoriaId:guid}", (EsteticaEasyContext context, Guid categoriaId) =>
     {
@@ -441,21 +440,30 @@ app.MapPut("produto/atualizar", (EsteticaEasyContext context, ProdutoAtualizarDt
     }).ToList();
     context.SaveChanges();
     return Results.Ok("Produto atualizado com sucesso");
-}).RequireAuthorization().
-    WithTags("Produto");
+}).RequireAuthorization("Administrador")
+     .WithTags("Produto");
 
 app.MapDelete("produto/deletar/{id:guid}", (EsteticaEasyContext context, Guid id) =>
 {
-    var produto = context.ProdutoSet.Find(id);
+    var produto = context.ProdutoSet
+        .Include(p => p.ProdutoImagens)
+        .FirstOrDefault(p => p.Id == id);
+
     if (produto == null)
     {
         return Results.NotFound();
     }
+
+    // Remove as imagens relacionadas
+    context.ImagemProdutoSet.RemoveRange(produto.ProdutoImagens);
+
+    // Remove o produto
     context.ProdutoSet.Remove(produto);
+
     context.SaveChanges();
     return Results.Ok("Produto deletado com sucesso");
-}).RequireAuthorization().
-    WithTags("Produto");
+}).RequireAuthorization("Administrador")
+     .WithTags("Produto");
 
 #endregion
 
