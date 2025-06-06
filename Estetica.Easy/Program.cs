@@ -308,6 +308,8 @@ app.MapGet("agendamento/listar", (EsteticaEasyContext context, ClaimsPrincipal c
 
     var agendamentos = context.AgendamentoSet
         .Include(p => p.Horarios)
+        .Include(p => p.Usuario)
+        .Include(p => p.Produto)
         .Where(p => p.UsuarioId == usuarioId)
         .ToList()
         .Select(agendamento =>
@@ -321,6 +323,8 @@ app.MapGet("agendamento/listar", (EsteticaEasyContext context, ClaimsPrincipal c
                 HoraInicial = horariosOrdenados.First().Hora,
                 HoraFinal = horariosOrdenados.Last().Hora,
                 Status = agendamento.Status,
+                NomeUsuario = agendamento.Usuario.Nome,
+                NomeProduto = agendamento.Produto.Descricao
             };
         })
         .OrderBy(dto => dto.HoraInicial) // aqui você ordena pela hora inicial

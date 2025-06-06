@@ -9,5 +9,7 @@ namespace Estetica.Easy.Domain.DTOs.Agendamento
         public TimeOnly HoraInicial { get; set; }
         public TimeOnly HoraFinal { get; set; }
         public EnumStatus Status { get; set; }
+        public string NomeUsuario { get; set; }
+        public string NomeProduto { get; set; }
     }
 }
