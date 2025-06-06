@@ -365,11 +365,7 @@ app.MapPost("produto/adicionar", (EsteticaEasyContext context, ProdutoAdicionarD
         Descricao = produtoDto.Descricao,
         Tempo = produtoDto.Tempo,
         Preco = produtoDto.Preco,
-        ProdutoImagens = produtoDto.Imagens.Select(i => new ProdutoImagem
-        {
-            Id = Guid.NewGuid(),
-            Imagem = i.Imagem
-        }).ToList(),
+        Imagem = produtoDto.Imagem, 
         CategoriaId = produtoDto.CategoriaId,
     };
     context.ProdutoSet.Add(produto);
@@ -388,11 +384,7 @@ app.MapGet("produto/listar", (EsteticaEasyContext context) =>
         CategoriaDescricao = pro.Categoria.Descricao,
         Preco = pro.Preco,
         Tempo = pro.Tempo,
-        ProdutoImagens = pro.ProdutoImagens.Select(i => new ProdutoImagem
-        {
-            Id = i.Id,
-            Imagem = i.Imagem
-        }).ToList()
+        Imagem = pro.Imagem
     }).ToList();
     return Results.Ok(listaProdutoDto);
 }).WithTags("Produto");
@@ -407,17 +399,18 @@ app.MapGet("produto/listar-por-categoria/{categoriaId:guid}", (EsteticaEasyConte
             CategoriaDescricao = pro.Categoria.Descricao,
             Preco = pro.Preco,
             Tempo = pro.Tempo,
-            ProdutoImagens = pro.ProdutoImagens.Select(i => new ProdutoImagem
-            {
-                Id = i.Id,
-                Imagem = i.Imagem
-            }).ToList()
+            Imagem = pro.Imagem
         }).ToList();
         return Results.Ok(listaProdutoDto);
     }).WithTags("Produto");
 
 app.MapPut("produto/atualizar", (EsteticaEasyContext context, ProdutoAtualizarDto produtoAtualizarDto) =>
 {
+    if (produtoAtualizarDto == null)
+    {
+        return Results.BadRequest("Dados inválidos para atualização do produto.");
+    }
+
     var resultado = new ProdutoAtualizarDtoValidator().Validate(produtoAtualizarDto);
 
     if (!resultado.IsValid)
@@ -428,42 +421,34 @@ app.MapPut("produto/atualizar", (EsteticaEasyContext context, ProdutoAtualizarDt
     var produto = context.ProdutoSet.Find(produtoAtualizarDto.Id);
     if (produto == null)
     {
-        return Results.NotFound();
+        return Results.NotFound("Produto não encontrado.");
     }
+
     produto.Descricao = produtoAtualizarDto.Descricao;
     produto.Tempo = produtoAtualizarDto.Tempo;
     produto.Preco = produtoAtualizarDto.Preco;
-    produto.ProdutoImagens = produtoAtualizarDto.Imagens.Select(i => new ProdutoImagem
-    {
-        Id = Guid.NewGuid(),
-        Imagem = i.Imagem
-    }).ToList();
+    produto.Imagem = produtoAtualizarDto.Imagem;
+    context.Update(produto);
     context.SaveChanges();
-    return Results.Ok("Produto atualizado com sucesso");
-}).RequireAuthorization("Administrador")
-     .WithTags("Produto");
+
+    return Results.Ok("Produto atualizado com sucesso.");
+})
+.RequireAuthorization()
+.WithTags("Produto");
+
 
 app.MapDelete("produto/deletar/{id:guid}", (EsteticaEasyContext context, Guid id) =>
 {
-    var produto = context.ProdutoSet
-        .Include(p => p.ProdutoImagens)
-        .FirstOrDefault(p => p.Id == id);
-
+    var produto = context.ProdutoSet.Find(id);
     if (produto == null)
     {
         return Results.NotFound();
     }
-
-    // Remove as imagens relacionadas
-    context.ImagemProdutoSet.RemoveRange(produto.ProdutoImagens);
-
-    // Remove o produto
     context.ProdutoSet.Remove(produto);
-
     context.SaveChanges();
     return Results.Ok("Produto deletado com sucesso");
-}).RequireAuthorization("Administrador")
-     .WithTags("Produto");
+}).RequireAuthorization("Administrador").
+    WithTags("Produto");
 
 #endregion
 

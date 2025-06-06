@@ -3,6 +3,7 @@ using System;
 using Estetica.Easy.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Estetica.Easy.Migrations
 {
     [DbContext(typeof(EsteticaEasyContext))]
-    partial class EsteticaEasyContextModelSnapshot : ModelSnapshot
+    [Migration("20250605105552_AjustesProdutoImagem")]
+    partial class AjustesProdutoImagem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,12 +116,12 @@ namespace Estetica.Easy.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
-                    b.Property<string>("Imagem")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<decimal>("Preco")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ProdutoImagens")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Tempo")
                         .HasColumnType("int");
@@ -128,6 +131,27 @@ namespace Estetica.Easy.Migrations
                     b.HasIndex("CategoriaId");
 
                     b.ToTable("TB_Produto", (string)null);
+                });
+
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.ProdutoImagem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Imagem")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("ProdutoId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProdutoId")
+                        .IsUnique();
+
+                    b.ToTable("TB_ProdutoImagem", (string)null);
                 });
 
             modelBuilder.Entity("Estetica.Easy.Domain.Entities.Usuario", b =>
@@ -201,6 +225,17 @@ namespace Estetica.Easy.Migrations
                         .IsRequired();
 
                     b.Navigation("Categoria");
+                });
+
+            modelBuilder.Entity("Estetica.Easy.Domain.Entities.ProdutoImagem", b =>
+                {
+                    b.HasOne("Estetica.Easy.Domain.Entities.Produto", "Produto")
+                        .WithOne()
+                        .HasForeignKey("Estetica.Easy.Domain.Entities.ProdutoImagem", "ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Produto");
                 });
 
             modelBuilder.Entity("Estetica.Easy.Domain.Entities.Agendamento", b =>

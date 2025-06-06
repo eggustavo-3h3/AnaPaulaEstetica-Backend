@@ -9,7 +9,7 @@ namespace Estetica.Easy.Domain.Entities
         public Guid CategoriaId { get; set; }
         public EnumTempo Tempo { get; set; }
         public decimal Preco { get; set; }
-        public ICollection<ProdutoImagem> ProdutoImagens { get; set; }
+        public string Imagem { get; set; }
 
         #region Propriedades de Navegabilidade
         public Categoria Categoria { get; set; }

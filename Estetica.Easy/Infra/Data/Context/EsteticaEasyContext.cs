@@ -7,7 +7,6 @@ namespace Estetica.Easy.Infra.Data.Context
     public class EsteticaEasyContext : DbContext
     {
         public DbSet<Produto> ProdutoSet { get; set; }
-        public DbSet<ProdutoImagem> ImagemProdutoSet { get; set; }
         public DbSet<Usuario> UsuarioSet { get; set; }
         public DbSet<Configuracao> ConfiguracaoSet { get; set; }
         public DbSet<Categoria> CategoriaSet { get; set; }
@@ -20,7 +19,6 @@ namespace Estetica.Easy.Infra.Data.Context
             modelBuilder.ApplyConfiguration(new CategoriaConfiguration());
             modelBuilder.ApplyConfiguration(new ConfiguracaoConfiguration());
             modelBuilder.ApplyConfiguration(new AgendamentoConfiguration());
-            modelBuilder.ApplyConfiguration(new ProdutoImagemConfiguration());
             modelBuilder.ApplyConfiguration(new AgendamentoHorarioConfiguration());
 
             base.OnModelCreating(modelBuilder);

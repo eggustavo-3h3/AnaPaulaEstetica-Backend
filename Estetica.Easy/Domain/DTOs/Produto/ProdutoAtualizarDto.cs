@@ -1,5 +1,4 @@
-﻿using Estetica.Easy.Domain.DTOs.ProdutoImagem;
-using Estetica.Easy.Domain.Enumerators;
+﻿using Estetica.Easy.Domain.Enumerators;
 
 namespace Estetica.Easy.Domain.DTOs.Produto
 {
@@ -9,7 +8,7 @@ namespace Estetica.Easy.Domain.DTOs.Produto
         public string Descricao { get; set; }
         public EnumTempo Tempo { get; set; }
         public decimal Preco { get; set; }
-        public List<ProdutoImagemAdicionarDto> Imagens { get; set; }
+        public string Imagem { get; set; }
 
         public Guid CategoriaId { get; set; }
     }

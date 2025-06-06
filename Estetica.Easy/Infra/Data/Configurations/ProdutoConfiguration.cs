@@ -24,6 +24,9 @@ namespace Estetica.Easy.Infra.Data.Configurations
             builder.Property(p => p.CategoriaId)
                 .IsRequired();
 
+            builder.Property(p => p.Imagem)
+                .IsRequired();
+
             builder.ToTable("TB_Produto");
 
             //builder.HasOne<Categoria>() // Supondo que exista uma classe Categoria
