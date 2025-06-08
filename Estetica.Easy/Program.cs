@@ -350,6 +350,18 @@ app.MapGet("agendamento/horarios-disponiveis", (EsteticaEasyContext context, [Fr
     return Results.Ok(horariosDisponiveis);
 }).WithTags("Agendamento");
 
+app.MapDelete("agendamento/deletar/{id:guid}", (EsteticaEasyContext context, Guid id) =>
+{
+    var agendamento = context.AgendamentoProdutoSet.Find(id);
+    if (agendamento is null)
+        return Results.NotFound("Agendamento não encontrado.");
+
+    context.AgendamentoProdutoSet.Remove(agendamento);
+    context.SaveChanges();
+
+    return Results.Ok("O agendamento foi cancelado com sucesso.");
+}).RequireAuthorization("usuario").WithTags("Agendamento");
+
 #endregion
 
 #region Endpoints Produto
@@ -542,6 +554,7 @@ app.MapPost("autenticar", (EsteticaEasyContext context, LoginDto loginDto) =>
         new Claim("Nome", usuario.Nome),
         new Claim("Login", usuario.Email),
         new Claim(ClaimTypes.Role, usuario.Perfil.ToString()),
+        new Claim("Perfil", usuario.Perfil.ToString()),
     };
 
     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("" + "{49ff3b22-3c25-4919-8b5f-2a79dd7088a6}"));
