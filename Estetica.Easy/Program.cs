@@ -298,6 +298,34 @@ app.MapPost("agendamento/adicionar", (EsteticaEasyContext context, ClaimsPrincip
         return Results.Created("Created", "Agendamento registrado com sucesso");
     }).RequireAuthorization().WithTags("Agendamento");
 
+app.MapGet("agendamento/listar-todos", (EsteticaEasyContext context) =>
+{
+    var agendamentos = context.AgendamentoSet
+        .Include(p => p.Horarios)
+        .Include(p => p.Usuario)
+        .Include(p => p.Produto)
+        .ToList()
+        .Select(agendamento =>
+        {
+            var horariosOrdenados = agendamento.Horarios.OrderBy(h => h.Hora).ToList();
+
+            return new AgendamentoListarDto
+            {
+                Id = agendamento.Id,
+                Data = horariosOrdenados.First().Data,
+                HoraInicial = horariosOrdenados.First().Hora,
+                HoraFinal = horariosOrdenados.Last().Hora,
+                Status = agendamento.Status,
+                NomeUsuario = agendamento.Usuario.Nome,
+                NomeProduto = agendamento.Produto.Descricao
+            };
+        })
+        .OrderBy(dto => dto.HoraInicial)
+        .ToList();
+
+    return Results.Ok(agendamentos);
+}).RequireAuthorization("Administrador").WithTags("Agendamento");
+
 app.MapGet("agendamento/listar", (EsteticaEasyContext context, ClaimsPrincipal claims) =>
 {
     var usuarioIdClaim = claims.FindFirst("Id")?.Value;
@@ -352,15 +380,15 @@ app.MapGet("agendamento/horarios-disponiveis", (EsteticaEasyContext context, [Fr
 
 app.MapDelete("agendamento/deletar/{id:guid}", (EsteticaEasyContext context, Guid id) =>
 {
-    var agendamento = context.AgendamentoProdutoSet.Find(id);
+    var agendamento = context.AgendamentoSet.Find(id);
     if (agendamento is null)
         return Results.NotFound("Agendamento não encontrado.");
 
-    context.AgendamentoProdutoSet.Remove(agendamento);
+    context.AgendamentoSet.Remove(agendamento);
     context.SaveChanges();
 
     return Results.Ok("O agendamento foi cancelado com sucesso.");
-}).RequireAuthorization("usuario").WithTags("Agendamento");
+}).RequireAuthorization("Usuario").WithTags("Agendamento");
 
 #endregion
 
@@ -484,6 +512,7 @@ app.MapPost("usuario/adicionar", (EsteticaEasyContext context, UsuarioAdicionarD
         Id = Guid.NewGuid(),
         Nome = usuarioDto.Nome,
         Email = usuarioDto.Email,
+        Perfil = EnumPerfil.Usuario,
         Senha = usuarioDto.Senha.EncryptPassword()
     };
     context.UsuarioSet.Add(usuario);
@@ -540,7 +569,7 @@ app.MapDelete("usuario/deletar/{id:guid}", (EsteticaEasyContext context, Guid id
 
 #endregion
 
-#region Segurança
+#region Endpoints Segurança
 
 app.MapPost("autenticar", (EsteticaEasyContext context, LoginDto loginDto) =>
 {
@@ -588,7 +617,7 @@ app.MapPost("gerar-chave-reset-senha", (EsteticaEasyContext context, GerarResetS
         context.SaveChanges();
 
         var emailService = new EmailService();
-        var enviarEmailResponse = emailService.EnviarEmail(gerarResetSenhaDto.Email, "Reset de Senha", $"https://url-front/reset-senha/{usuario.ChaveResetSenha}", true);
+        var enviarEmailResponse = emailService.EnviarEmail(gerarResetSenhaDto.Email, "Reset de Senha", $"http://localhost:4200/reset-senha/{usuario.ChaveResetSenha}", true);
         if (!enviarEmailResponse.Sucesso)
             return Results.BadRequest(new BaseResponse("Erro ao enviar o e-mail: " + enviarEmailResponse.Mensagem));
     }
