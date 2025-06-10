@@ -617,7 +617,7 @@ app.MapPost("gerar-chave-reset-senha", (EsteticaEasyContext context, GerarResetS
         context.SaveChanges();
 
         var emailService = new EmailService();
-        var enviarEmailResponse = emailService.EnviarEmail(gerarResetSenhaDto.Email, "Reset de Senha", $"http://localhost:4200/reset-senha/{usuario.ChaveResetSenha}", true);
+        var enviarEmailResponse = emailService.EnviarEmail(gerarResetSenhaDto.Email, "Reset de Senha", $"https://anapaulaestetica.tccnapratica.com.br/reset-senha/{usuario.ChaveResetSenha}", true);
         if (!enviarEmailResponse.Sucesso)
             return Results.BadRequest(new BaseResponse("Erro ao enviar o e-mail: " + enviarEmailResponse.Mensagem));
     }
